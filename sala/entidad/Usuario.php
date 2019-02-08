@@ -228,5 +228,34 @@ class Usuario implements \Sala\interfaces\Entidad{
         return $arrayReturn;
     }
 
+    public function getUsuarioByUsuario(){
+        if(!empty($this->usuario)){
+            $query = "SELECT * "
+                    . "FROM usuario "
+                    . "WHERE usuario = ".$this->usuario;
+            $datos = $this->db->Execute($query);
+            
+            if(!empty($datos)){
+                $d = $datos->FetchRow();
+                
+                $this->idusuario = $d['idusuario'];
+                $this->usuario = $d['usuario'];
+                $this->numerodocumento = $d['numerodocumento'];
+                $this->tipodocumento = $d['tipodocumento'];
+                $this->apellidos = $d['apellidos'];
+                $this->nombres = $d['nombres'];
+                $this->codigousuario = $d['codigousuario'];
+                $this->semestre = $d['semestre'];
+                $this->codigorol = $d['codigorol'];
+                $this->fechainiciousuario = $d['fechainiciousuario'];
+                $this->fechavencimientousuario = $d['fechavencimientousuario'];
+                $this->fecharegistrousuario = $d['fecharegistrousuario'];
+                $this->codigotipousuario = $d['codigotipousuario'];
+                $this->idusuariopadre = $d['idusuariopadre'];
+                $this->ipaccesousuario = $d['ipaccesousuario'];
+                $this->codigoestadousuario = $d['codigoestadousuario'];
+            }
+        }
+    }
 	
  }

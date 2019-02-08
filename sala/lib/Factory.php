@@ -130,7 +130,7 @@ abstract class Factory{
         switch($type){
             case "sala":
                 $dbReturn = self::$db;
-                $typeConn = 'mysql';
+                $typeConn = 'mysqli';
                 $hostName = $conf->getHostName();
                 $dbUserName = $conf->getDbUserName();
                 $dbUserPasswd = $conf->getDbUserPasswd();

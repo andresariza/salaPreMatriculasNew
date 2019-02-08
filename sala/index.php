@@ -8,6 +8,8 @@
  * @package main
  */
 namespace Sala;
+    @error_reporting(1023); // NOT FOR PRODUCTION SERVERS!
+    @ini_set('display_errors', '1'); // NOT FOR PRODUCTION SERVERS! 
 set_time_limit(30000);
 ini_set('memory_limit', '64M');
 
