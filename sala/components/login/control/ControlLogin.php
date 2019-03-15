@@ -147,22 +147,67 @@ class ControlLogin {
     }
     
     public function ingresar(){
-        $response = array("aut"=>false);
+        $response = array("aut"=>false, "mensaje"=>"Usuario o clave incorrectos");
         $user = new \Sala\entidad\Usuario();
         $user->setDb();
         $user->setUsuario($this->variables->login);
         
         $user->getUsuarioByUsuario();
-        d($user);
+        //d($user);
         $idUsuario = $user->getIdusuario(); 
         if(!empty($idUsuario)){
             $response['aut'] = "OK";
+            $response['mensaje'] = "Bienvenido";
+            $response['codigotipousuario'] = $user->getCodigotipousuario();
             
             Factory::setSessionVar('MM_Username', $user->getUsuario());
             Factory::setSessionVar('key', md5($user->getUsuario()." ".$user->getNombres()." ".$user->getApellidos()));
+            Factory::setSessionVar('idusuario', $user->getIdusuario());
             Factory::setSessionVar('codigotipousuario',$user->getCodigotipousuario());
+            $idPerfil = 0;
+            switch ($user->getCodigotipousuario()){
+                case '600':
+                        $idPerfil = 1;
+                        Factory::setSessionVar('MM_Username', "estudiante");
+                    $query = " SELECT idestudiantegeneral FROM estudiantegeneral WHERE numerodocumento = ".$this->db->qstr($user->getNumerodocumento());
+                    if(!empty($datos)){
+                        $d = $datos->FetchRow();
+                        Factory::setSessionVar('sesion_idestudiantegeneral',$d['idestudiantegeneral']);
+                    }
+                    break;
+                case '900':
+                    $idPerfil = 4;
+                    break;
+                case '500':
+                    $idPerfil = 2;
+                    break;
+                case '400':
+                    $idPerfil = 3;
+                    break;
+            }
             
-            $query = "SELECT * FROM usuariorol";
+            Factory::setSessionVar('idPerfil',$idPerfil);
+            Factory::setSessionVar('auth',true);
+            Factory::setSessionVar('nuevoMenu',true);
+            Factory::setSessionVar('path_live',PATH_ROOT);
+            
+            $query = "SELECT rol.idrol "
+                    . " FROM usuario u "
+                    . " INNER JOIN UsuarioTipo ut ON (ut.UsuarioId = u.idusuario) "
+                    . " INNER JOIN usuariorol rol ON (rol.idusuariotipo = ut.UsuarioTipoId) "
+                    . " WHERE u.usuario = ".$this->db->qstr($user->getUsuario());
+            $datos = $this->db->Execute($query);
+            //d($query);
+            if(!empty($datos)){
+                $d = $datos->FetchRow();
+                Factory::setSessionVar('rol',$d['idrol']);
+            }
+            
+            Factory::setSessionVar('codigoperiodosesion',20191);
+            Factory::setSessionVar('codigoestadoperiodosesion',1);
+            Factory::setSessionVar('usuario',$user->getUsuario());
+            Factory::setSessionVar('codigo',$user->getCodigousuario());
+            
             
         }
         echo json_encode($response);

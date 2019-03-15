@@ -161,8 +161,8 @@ function login(){
 
         $.ajax({
             url: HTTP_SITE+'/index.php',
-            //type: "POST",
-            type: "GET",
+            type: "POST",
+            //type: "GET",
             dataType: "json",
             data: {
                 tmpl : 'json',

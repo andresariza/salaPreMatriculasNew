@@ -348,7 +348,7 @@ abstract class Factory{
      * @return void
      */
     public static function setSessionVar($variable, $value){
-        if(!empty($_SESSION)){
+        if(isset($_SESSION)){
             return $_SESSION[$variable] = $value;
         }
     }
