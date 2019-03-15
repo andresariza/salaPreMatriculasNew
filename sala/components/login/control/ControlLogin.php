@@ -147,9 +147,24 @@ class ControlLogin {
     }
     
     public function ingresar(){
+        $response = array("aut"=>false);
         $user = new \Sala\entidad\Usuario();
         $user->setDb();
         $user->setUsuario($this->variables->login);
-        ddd($this->variables);
+        
+        $user->getUsuarioByUsuario();
+        d($user);
+        $idUsuario = $user->getIdusuario(); 
+        if(!empty($idUsuario)){
+            $response['aut'] = "OK";
+            
+            Factory::setSessionVar('MM_Username', $user->getUsuario());
+            Factory::setSessionVar('key', md5($user->getUsuario()." ".$user->getNombres()." ".$user->getApellidos()));
+            Factory::setSessionVar('codigotipousuario',$user->getCodigotipousuario());
+            
+            $query = "SELECT * FROM usuariorol";
+            
+        }
+        echo json_encode($response);
     }
 }

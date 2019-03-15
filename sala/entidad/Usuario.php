@@ -189,6 +189,9 @@ class Usuario implements \Sala\interfaces\Entidad{
     public function setIdusuario($idusuario) {
         $this->idusuario = $idusuario;
     }
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
+    }
     
     public function getUsuarioByIdUsuario(){
         if(!empty($this->idusuario)){
@@ -232,14 +235,14 @@ class Usuario implements \Sala\interfaces\Entidad{
         if(!empty($this->usuario)){
             $query = "SELECT * "
                     . "FROM usuario "
-                    . "WHERE usuario = ".$this->usuario;
+                    . "WHERE usuario = ".$this->db->qstr($this->usuario);
             $datos = $this->db->Execute($query);
-            
+            //d($query);
             if(!empty($datos)){
                 $d = $datos->FetchRow();
-                
+                //d($d);
                 $this->idusuario = $d['idusuario'];
-                $this->usuario = $d['usuario'];
+                //$this->usuario = $d['usuario'];
                 $this->numerodocumento = $d['numerodocumento'];
                 $this->tipodocumento = $d['tipodocumento'];
                 $this->apellidos = $d['apellidos'];
