@@ -160,8 +160,9 @@ function login(){
         var cadena="login="+login+"&password="+clave;
 
         $.ajax({
-            url: HTTP_ROOT+'/serviciosacademicos/consulta/loginv2.php',
-            type: "POST",
+            url: HTTP_SITE+'/index.php',
+            //type: "POST",
+            type: "GET",
             dataType: "json",
             data: {
                 tmpl : 'json',

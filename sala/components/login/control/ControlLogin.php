@@ -117,7 +117,7 @@ class ControlLogin {
      * El tiempo de vida de la sesion es de 30 minutos 
      * @since Marzo 2, 2018
      */
-    function validarVidaSesion(){
+    public function validarVidaSesion(){
         $curTime = mktime(); 
         $lastActivity = Factory::getSessionVar('lastActivity');
         //$lastActivity = 1527585164;
@@ -139,10 +139,17 @@ class ControlLogin {
      * El tiempo de vida de la sesion es de 30 minutos 
      * @since Marzo 2, 2018
      */
-    function updateSessionActivity(){
+    public function updateSessionActivity(){
         $curTime = mktime();
         Factory::setSessionVar("lastActivity",$curTime);
         echo json_encode(array("s"=>true));
         exit;
+    }
+    
+    public function ingresar(){
+        $user = new \Sala\entidad\Usuario();
+        $user->setDb();
+        $user->setUsuario($this->variables->login);
+        ddd($this->variables);
     }
 }
