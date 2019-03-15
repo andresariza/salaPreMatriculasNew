@@ -72,13 +72,14 @@ spl_autoload_register('salaAutoloader');
  * Si la aplicacion se corre en un entorno local o de pruebas se activa la visualizacion 
  * de todos los errores de php
  */
-if($Configuration->getEntorno()=="local"||$Configuration->getEntorno()=="pruebas"){
+$pos = strpos($Configuration->getEntorno(), "local");
+if($Configuration->getEntorno()=="local"||$Configuration->getEntorno()=="pruebas"||$pos!==false){
     @error_reporting(1023); // NOT FOR PRODUCTION SERVERS!
     @ini_set('display_errors', '1'); // NOT FOR PRODUCTION SERVERS!
     /**
      * Se incluye la libreria Kint para hacer debug controlado de variables y objetos
      */
-    require (PATH_ROOT.'/kint/Kint.class.php');
+    require_once (PATH_ROOT.'/kint/Kint.class.php');
 }
 
 /**

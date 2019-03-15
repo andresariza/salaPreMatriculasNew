@@ -1,6 +1,6 @@
 $(document).ready(function(){
     showAsideModule();
-    hideMainMenu();
+    //hideMainMenu();
     
     pulsarIcono();
     var pulsar = setInterval(function(){

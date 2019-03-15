@@ -170,6 +170,7 @@ class ControlLogin {
                         $idPerfil = 1;
                         Factory::setSessionVar('MM_Username', "estudiante");
                     $query = " SELECT idestudiantegeneral FROM estudiantegeneral WHERE numerodocumento = ".$this->db->qstr($user->getNumerodocumento());
+                    $datos = $this->db->Execute($query);
                     if(!empty($datos)){
                         $d = $datos->FetchRow();
                         Factory::setSessionVar('sesion_idestudiantegeneral',$d['idestudiantegeneral']);
