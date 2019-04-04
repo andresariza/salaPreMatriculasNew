@@ -7,11 +7,12 @@
  */
 
 namespace Sala\lib\GestorDePrematriculas\interfaces;
+defined('_EXEC') or die;
 
 /**
  *
  * @author Andres
  */
 interface ICarreraDAO {
-    //put your code here
+    public function consultarCarrera();
 }

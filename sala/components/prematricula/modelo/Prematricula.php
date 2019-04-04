@@ -21,6 +21,8 @@ class Prematricula implements \Sala\interfaces\Model{
     }
     //put your code here
     public function getVariables($variables) {
+        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));
+        d($carreraEstudiante);
         return array();
     }
 

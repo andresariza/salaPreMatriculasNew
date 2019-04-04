@@ -49,7 +49,7 @@ class ControlDashBoard{
             WHERE e.codigoestudiante = '".$this->variables->codigoestudiante."'
                 AND p.codigoestadoperiodo = '1' 
             ORDER BY e.codigosituacioncarreraestudiante desc";
-        
+        //d($query);
         $datos = $this->db->Execute($query);
         $d = $datos->FetchRow();
         if(!empty($d)){

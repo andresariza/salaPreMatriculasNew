@@ -7,6 +7,7 @@
  */
 
 namespace Sala\lib\GestorDePrematriculas\dto;
+defined('_EXEC') or die;
 
 /**
  * Description of DocenteDTO
@@ -14,5 +15,7 @@ namespace Sala\lib\GestorDePrematriculas\dto;
  * @author Andres
  */
 class DocenteDTO {
-    //put your code here
+    public $codigo;
+    public $nombreCompleto;
+    public $tipoDocente;
 }
