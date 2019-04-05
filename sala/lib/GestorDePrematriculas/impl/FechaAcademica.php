@@ -26,7 +26,7 @@ class FechaAcademica implements \Sala\lib\GestorDePrematriculas\interfaces\IFech
     }
 
     public function validarFechaAcademica() {
-        //ToDo hacer la implemantacion de la validacion de la fecha academica   
+        
     }
 
 }
