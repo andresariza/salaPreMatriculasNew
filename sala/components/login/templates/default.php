@@ -1,7 +1,5 @@
 <?php 
 defined('_EXEC') or die; 
-use Sala\config\Configuration;
-use Sala\lib\Factory;
 $Configuration = Configuration::getInstance();
 $entorno = $Configuration->getEntorno();
 ?>
