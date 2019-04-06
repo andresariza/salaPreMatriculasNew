@@ -16,36 +16,72 @@ class Prematricula implements \Sala\interfaces\Model{
      */
     private $db;
     
+    private $carreraDTO;
+    private $periodoDTO;
+    private $Estudiante;
+    
     public function __construct() {
         $this->db = Factory::createDbo();
+        $this->setPeriodoDTO();
+        $this->setCarreraDTO();
+        
+        #toDo tratar de implementar un Builder para la creacion de estudiante
+        $this->setEstudiante();
     }
     //put your code here
     public function getVariables($variables) {
-        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));
-        $periodoSesion = unserialize(Factory::getSessionVar("PeriodoSession"));
-        $periodoVigente = Servicios::getPeriodoVigente();
         
-        $carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO();
-        $carreraDTO->id = $carreraEstudiante->getCodigocarrera();
-        $carreraDTO->nombre = $carreraEstudiante->getNombrecarrera();
-        $carreraDTO->titulo = $carreraEstudiante->getNombrecarrera();
-        d($carreraEstudiante);
+        $fechaAcademicaImpl = new \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl($this->carreraDTO, $this->periodoDTO);
+        $fechaValida = $fechaAcademicaImpl->validarFechaAcademica();
+        $situacionEstudiantevalido = $this->Estudiante->validarEstado(); 
         
-        $periodoDTO = new \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO();
-        $periodoDTO->codigoPeriodo = $periodoVigente->getCodigoperiodo();
-        $periodoDTO->agno = $periodoVigente->getCodigoperiodo();
-        $periodoDTO->fechaFin = $periodoVigente->getFechainicioperiodo();
-        $periodoDTO->fechaInicio = $periodoVigente->getFechavencimientoperiodo();
-        $periodoDTO->nombre = $periodoVigente->getNombreperiodo();
-        $periodoDTO->numeroPeriodo = $periodoVigente->getNumeroperiodo();
-        //$periodoDTO->id = $periodoVigente->get
+        $pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante);
+        d($pazYSalvo);
         
-        //d($carreraEstudiante);
-        $fechaAcademica = new \Sala\lib\GestorDePrematriculas\impl\FechaAcademica($carreraDTO, $periodoDTO);
-        //d($periodoVigente);
-        //d($periodoDTO);
-        d($fechaAcademica);
+        if($fechaValida && $situacionEstudiantevalido){
+            echo $fechaValida;
+        }
+        
         return array();
+    }
+    
+    private function setPeriodoDTO(){
+        $periodoVigente = Servicios::getPeriodoVigente();
+        $this->periodoDTO = new \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO();
+        $this->periodoDTO->codigoPeriodo = $periodoVigente->getCodigoperiodo();
+        $this->periodoDTO->agno = $periodoVigente->getCodigoperiodo();
+        $this->periodoDTO->fechaFin = $periodoVigente->getFechainicioperiodo();
+        $this->periodoDTO->fechaInicio = $periodoVigente->getFechavencimientoperiodo();
+        $this->periodoDTO->nombre = $periodoVigente->getNombreperiodo();
+        $this->periodoDTO->numeroPeriodo = $periodoVigente->getNumeroperiodo();
+        unset($periodoVigente);
+    }
+    
+    private function setCarreraDTO(){
+        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));        
+        $this->carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO();
+        $this->carreraDTO->id = $carreraEstudiante->getCodigocarrera();
+        $this->carreraDTO->nombre = $carreraEstudiante->getNombrecarrera();
+        $this->carreraDTO->titulo = $carreraEstudiante->getNombrecarrera();
+        unset($carreraEstudiante);
+    }
+    
+    private function setEstudiante(){        
+        $eEstudiante = new \Sala\entidad\Estudiante();
+        $eEstudiante->setCodigoEstudiante(Factory::getSessionVar('codigo'));
+        $eEstudiante->setDb();
+        $eEstudiante->getById();
+        //d($eEstudiante);
+        
+        $eEstudianteGeneral = new \Sala\entidad\EstudianteGeneral();
+        $eEstudianteGeneral->setIdestudiantegeneral(Factory::getSessionVar("sesion_idestudiantegeneral"));
+        $eEstudianteGeneral->setDb();
+        $eEstudianteGeneral->getById();
+        //d($eEstudianteGeneral);
+        
+        $this->Estudiante = new \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
+                $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
+                $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral());
     }
 
 }
