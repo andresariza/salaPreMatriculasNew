@@ -36,9 +36,9 @@ class Prematricula implements \Sala\interfaces\Model{
         $situacionEstudiantevalido = $this->Estudiante->validarEstado(); 
         
         $pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante);
-        d($pazYSalvo);
+       d($this->Estudiante);
         
-        if($fechaValida && $situacionEstudiantevalido){
+        if($fechaValida && $situacionEstudiantevalido && $pazYSalvo->validarPazYSalvoEstudiante()){
             echo $fechaValida;
         }
         
