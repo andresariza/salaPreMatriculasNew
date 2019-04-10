@@ -15,7 +15,28 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class CarreraDTO {
-    public $id;
-    public $nombre;
-    public $titulo;
+    private $id;
+    private $nombre;
+    private $titulo;
+    
+    public function __construct($id, $nombre, $titulo) {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->titulo = $titulo;
+    }
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getNombre() {
+        return $this->nombre;
+    }
+
+    public function getTitulo() {
+        return $this->titulo;
+    }
+
+
+
 }

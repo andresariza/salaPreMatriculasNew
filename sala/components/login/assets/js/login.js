@@ -160,7 +160,7 @@ function login(){
         var cadena="login="+login+"&password="+clave;
 
         $.ajax({
-            url: HTTP_ROOT+'/serviciosacademicos/consulta/loginv2.php',
+            url: HTTP_SITE+'/index.php',
             type: "POST",
             dataType: "json",
             data: {
@@ -229,21 +229,6 @@ function login(){
                             case 900:
                             case 500://2
                                 window.setTimeout(function() {
-                                    var tipoUsuario = "";
-                                    if(codigotipousuario == 400){
-                                        tipoUsuario = "admininistrativo-";
-                                    }else if(codigotipousuario == 500){
-                                        tipoUsuario = "docente-";
-                                    }else if(codigotipousuario == 600){
-                                        tipoUsuario = "estudiante-";
-                                    }else if(codigotipousuario == 900){
-                                        tipoUsuario = "padre-";
-                                    }
-                                    
-                                    var page = "/usuario-"+tipoUsuario+login;
-                                    var title = "Ingreso - "+tipoUsuario+login;
-                                    trackPage(page, title);
-                                    
                                     window.location.href = HTTP_SITE+"/";
                                 }, 500);
                                 break;

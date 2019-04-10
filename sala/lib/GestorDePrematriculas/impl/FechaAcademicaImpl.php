@@ -14,6 +14,7 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
+use \Sala\lib\Factory;
 class FechaAcademicaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IFechaAcademica{
     private $carrera;
     private $fechaInicioPrematricula;
@@ -23,10 +24,11 @@ class FechaAcademicaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\I
     public function __construct(\Sala\lib\GestorDePrematriculas\dto\CarreraDTO $carrera, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo) {
         $this->carrera = $carrera;
         $this->periodo = $periodo;
+        //d($this->periodo);
     }
 
     public function validarFechaAcademica() {
-        $db = \Sala\lib\Factory::createDbo();
+        $db = Factory::createDbo();
         $return = false;
         $where = " codigoperiodo = ".$db->qstr($this->periodo->codigoPeriodo)." "
                 . " AND codigocarrera = ".$db->qstr($this->carrera->id)

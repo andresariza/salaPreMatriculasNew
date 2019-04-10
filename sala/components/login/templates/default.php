@@ -1,7 +1,6 @@
 <?php 
-defined('_EXEC') or die; 
-$Configuration = Configuration::getInstance();
-$entorno = $Configuration->getEntorno();
+defined('_EXEC') or die;
+use Sala\lib\Factory;
 ?>
 <!--jQuery [ REQUIRED ]-->
 <?php echo Factory::printImportJsCss("js",HTTP_SITE."/components/login/assets/js/login.js"); ?>

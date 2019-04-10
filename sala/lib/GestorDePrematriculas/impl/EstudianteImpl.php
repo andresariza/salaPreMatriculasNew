@@ -19,6 +19,7 @@ class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEst
         $this->estado = $estado;
         $this->nombres = $nombres;
         $this->apellidos = $apellidos;
+        //d(1);
     }
 
     

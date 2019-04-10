@@ -1,6 +1,7 @@
 <?php
 namespace Sala\components\login\modelo;
 defined('_EXEC') or die;
+use Sala\config\Configuration;
 use Sala\lib\Factory;
 /**
  * @author Andres Alberto Ariza <arizaandres@unbosque.edu.co>
@@ -22,6 +23,8 @@ class Login implements \Sala\interfaces\Model{
         $array = array();
         $array['clavereq2'] = Factory::getSessionVar('2clavereq');
         $array['MM_Username'] = Factory::getSessionVar('MM_Username');
+        $Configuration = Configuration::getInstance();
+        $array['entorno'] = $Configuration->getEntorno();
         return $array;
     }
 }
