@@ -163,8 +163,8 @@ class DetallePlanEstudio implements \Sala\interfaces\Entidad {
 
     public static function getList($where = null, $orderBy = null) {
         $return = array();
-        $db = Factory::createDbo();
-        $query = "SELECT * FROM planestudio "
+        $db = \Sala\lib\Factory::createDbo();
+        $query = "SELECT * FROM detalleplanestudio "
                 . " WHERE 1 ";
         if (!empty($where)) {
             $query .= " AND " . $where;
@@ -173,9 +173,10 @@ class DetallePlanEstudio implements \Sala\interfaces\Entidad {
             $query .= " ORDER BY " . $orderBy;
         }
         //d($query);
-        $datos = $db->Execute($query);
-
-        while ($d = $datos->FetchRow()) {
+        //d($db);
+        $datos = $db->GetAll($query);
+        
+        foreach ( $datos as $d) {
             $DetallePlanEstudio = new DetallePlanEstudio();
             $DetallePlanEstudio->setIdplanestudio($d['idplanestudio']);
             $DetallePlanEstudio->setCodigomateria($d['codigomateria']);

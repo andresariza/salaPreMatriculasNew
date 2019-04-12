@@ -39,5 +39,10 @@ class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEst
     public function validarInformacionEstudiante() {
         return true;
     }
+    
+    public function getEstudianteDTO(){
+        return new \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO($this->id, 
+                $this->codigo, $this->estado, $this->nombres, $this->apellidos);
+    }
 
 }

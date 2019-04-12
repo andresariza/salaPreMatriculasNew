@@ -23,59 +23,43 @@ class ControlAcceso {
     private $fechaAcademica;
     private $pazYSalvo;
     
-    public function __construct() {
+    public function __construct(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante, 
+            \Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO) {
+        $this->setEstudiante($Estudiante);
+        $this->setCarreraDTO($CarreraDTO);
         $this->setPeriodoDTO();
-        $this->setCarreraDTO();
         
-        #toDo tratar de implementar un Builder para la creacion de estudiante
-        $this->setEstudiante();
+        
         $this->setFechaAcademica();
         $this->setPazYSalvo();
     }
     
     public function validarDatosAccesoPrematricula(){
+        
         return ( $this->fechaAcademica->validarFechaAcademica() &&
                 $this->Estudiante->validarEstado() && 
                 $this->pazYSalvo->validarPazYSalvoEstudiante());
     }
     
-    private function setPeriodoDTO(){
+    public function setPeriodoDTO(){
         $periodoVigente = Servicios::getPeriodoVigente();
-        $this->periodoDTO = new \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO();
-        $this->periodoDTO->codigoPeriodo = $periodoVigente->getCodigoperiodo();
-        $this->periodoDTO->agno = $periodoVigente->getCodigoperiodo();
-        $this->periodoDTO->fechaFin = $periodoVigente->getFechainicioperiodo();
-        $this->periodoDTO->fechaInicio = $periodoVigente->getFechavencimientoperiodo();
-        $this->periodoDTO->nombre = $periodoVigente->getNombreperiodo();
-        $this->periodoDTO->numeroPeriodo = $periodoVigente->getNumeroperiodo();
+        $this->periodoDTO = new \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO(null,
+                $periodoVigente->getCodigoperiodo(),
+                $periodoVigente->getCodigoperiodo(),
+                null,
+                $periodoVigente->getFechainicioperiodo(),
+                $periodoVigente->getFechavencimientoperiodo(),
+                $periodoVigente->getNombreperiodo(),
+                $periodoVigente->getNumeroperiodo());
         unset($periodoVigente);
     }
     
-    private function setCarreraDTO(){
-        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));        
-        $this->carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO();
-        $this->carreraDTO->id = $carreraEstudiante->getCodigocarrera();
-        $this->carreraDTO->nombre = $carreraEstudiante->getNombrecarrera();
-        $this->carreraDTO->titulo = $carreraEstudiante->getNombrecarrera();
-        unset($carreraEstudiante);
+    public function setCarreraDTO(\Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO){
+        $this->carreraDTO = $CarreraDTO;
     }
     
-    private function setEstudiante(){        
-        $eEstudiante = new \Sala\entidad\Estudiante();
-        $eEstudiante->setCodigoEstudiante(Factory::getSessionVar('codigo'));
-        $eEstudiante->setDb();
-        $eEstudiante->getById();
-        //d($eEstudiante);
-        
-        $eEstudianteGeneral = new \Sala\entidad\EstudianteGeneral();
-        $eEstudianteGeneral->setIdestudiantegeneral(Factory::getSessionVar("sesion_idestudiantegeneral"));
-        $eEstudianteGeneral->setDb();
-        $eEstudianteGeneral->getById();
-        //d($eEstudianteGeneral);
-        
-        $this->Estudiante = new \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
-                $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
-                $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral());
+    public function setEstudiante(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante){
+        $this->Estudiante = $Estudiante;
     }
     
     private function setFechaAcademica(){
@@ -84,5 +68,24 @@ class ControlAcceso {
     
     private function setPazYSalvo(){
         $this->pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante);
+    }
+    public function getCarreraDTO() {
+        return $this->carreraDTO;
+    }
+
+    public function getPeriodoDTO() {
+        return $this->periodoDTO;
+    }
+
+    public function getEstudiante() {
+        return $this->Estudiante;
+    }
+
+    public function getFechaAcademica() {
+        return $this->fechaAcademica;
+    }
+
+    public function getPazYSalvo() {
+        return $this->pazYSalvo;
     }
 }

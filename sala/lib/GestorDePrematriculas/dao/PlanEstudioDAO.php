@@ -47,12 +47,34 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
         $this->nombre = $nombre;
     }
     
-    public function buscarPlanEstudio() {
+    public function buscarPlanEstudio($codigoEstudiante) {
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " codigoestudiante = ".$db->qstr($codigoEstudiante);
+        $ePlanEstudioEstudiante = \Sala\entidad\PlanEstudioEstudiante::getList($where);
         
+        if(!empty($ePlanEstudioEstudiante)){
+            $ePlanEstudio = new \Sala\entidad\PlanEstudio();
+            $ePlanEstudio->setDb();
+            $ePlanEstudio->setIdplanestudio($ePlanEstudioEstudiante[0]->getIdplanestudio());
+            $ePlanEstudio->getById();
+            
+            $this->id = $ePlanEstudio->getIdplanestudio();
+            $this->nombre = $ePlanEstudio->getNombreplanestudio();
+            $this->getListadoMaterias();
+            d($this);
+        }
     }
 
     public function validarMateriasDisponibles() {
         
+    }
+    
+    private function getListadoMaterias(){
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " idplanestudio = ".$db->qstr($this->id)
+                . " ORDER BY  CONVERT(semestredetalleplanestudio,UNSIGNED INTEGER) ";
+        $listadoMaterias = \Sala\entidad\DetallePlanEstudio::getList($where);
+        d($listadoMaterias);
     }
 
 }

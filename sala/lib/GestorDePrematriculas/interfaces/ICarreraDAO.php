@@ -14,5 +14,5 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface ICarreraDAO {
-    public function consultarCarrera();
+    public function consultarCarrera($codigocarrera);
 }

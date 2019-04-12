@@ -100,7 +100,7 @@ class PlanEstudioEstudiante implements \Sala\interfaces\Entidad {
 
     public static function getList($where = null, $orderBy = null) {
         $return = array();
-        $db = Factory::createDbo();
+        $db = \Sala\lib\Factory::createDbo();
         $query = "SELECT * FROM planestudioestudiante "
                 . " WHERE 1 ";
         if (!empty($where)) {

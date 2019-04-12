@@ -15,7 +15,23 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class PlanEstudioDTO {
-    public $carrera;
-    public $id;
-    public $nombre;
+    private $carrera;
+    private $id;
+    private $nombre;
+    public function __construct($carrera, $id, $nombre) {
+        $this->carrera = $carrera;
+        $this->id = $id;
+        $this->nombre = $nombre;
+    }
+    public function getCarrera() {
+        return $this->carrera;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getNombre() {
+        return $this->nombre;
+    }
 }

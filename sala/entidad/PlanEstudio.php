@@ -35,7 +35,7 @@ class PlanEstudio implements \Sala\interfaces\Entidad {
     }
 
     public function setDb() {
-        $this->db = Factory::createDbo();
+        $this->db = \Sala\lib\Factory::createDbo();
     }
 
     public function getIdplanestudio() {

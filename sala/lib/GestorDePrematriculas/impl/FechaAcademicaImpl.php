@@ -30,8 +30,8 @@ class FechaAcademicaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\I
     public function validarFechaAcademica() {
         $db = Factory::createDbo();
         $return = false;
-        $where = " codigoperiodo = ".$db->qstr($this->periodo->codigoPeriodo)." "
-                . " AND codigocarrera = ".$db->qstr($this->carrera->id)
+        $where = " codigoperiodo = ".$db->qstr($this->periodo->getCodigoPeriodo())." "
+                . " AND codigocarrera = ".$db->qstr($this->carrera->getId())
                 . " AND NOW() BETWEEN fechainicialprematricula AND fechafinalprematricula";
         $eFechaAcademica = \Sala\entidad\FechaAcademica::getList($where);
         if(!empty($eFechaAcademica)){

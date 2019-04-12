@@ -21,6 +21,9 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     private $nombreCorto;
     private $nombreLargo;
     private $tipoCalificacion;
+    private $numeroCreditos;
+    private $semestre;
+    private $preRequisito;
     
     public function __construct() {
     }
@@ -48,6 +51,18 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     public function getTipoCalificacion() {
         return $this->tipoCalificacion;
     }
+    
+    public function getNumeroCreditos() {
+        return $this->numeroCreditos;
+    }
+
+    public function getSemestre() {
+        return $this->semestre;
+    }
+    
+    public function getPreRequisito(){
+        return $this->preRequisito;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -72,13 +87,32 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     public function setTipoCalificacion($tipoCalificacion) {
         $this->tipoCalificacion = $tipoCalificacion;
     }
-    
+
+    public function setNumeroCreditos($numeroCreditos) {
+        $this->numeroCreditos = $numeroCreditos;
+    }
+
+    public function setSemestre($semestre) {
+        $this->semestre = $semestre;
+    }
+
+    public function setPreRequisito($preRequisito) {
+        $this->preRequisito = $preRequisito;
+    }
+        
     public function quitarMateria() {
         
     }
 
     public function seleccionarMateria() {
         
+    }
+    
+    public function getMateriaDTO(){
+        return new \Sala\lib\GestorDePrematriculas\dto\MateriaDTO($this->id, 
+                $this->estado, $this->modalidadMaestra, $this->nombreCorto, 
+                $this->nombreLargo, $this->tipoCalificacion, $this->numeroCreditos, 
+                $this->semestre, $this->preRequisito);
     }
 
 }

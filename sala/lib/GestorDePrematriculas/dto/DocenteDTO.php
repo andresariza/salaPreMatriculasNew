@@ -15,7 +15,23 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class DocenteDTO {
-    public $codigo;
-    public $nombreCompleto;
-    public $tipoDocente;
+    private $codigo;
+    private $nombreCompleto;
+    private $tipoDocente;
+    public function __construct($codigo, $nombreCompleto, $tipoDocente) {
+        $this->codigo = $codigo;
+        $this->nombreCompleto = $nombreCompleto;
+        $this->tipoDocente = $tipoDocente;
+    }
+    public function getCodigo() {
+        return $this->codigo;
+    }
+
+    public function getNombreCompleto() {
+        return $this->nombreCompleto;
+    }
+
+    public function getTipoDocente() {
+        return $this->tipoDocente;
+    }
 }

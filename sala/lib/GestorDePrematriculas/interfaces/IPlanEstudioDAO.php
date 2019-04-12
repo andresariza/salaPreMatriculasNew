@@ -14,6 +14,6 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IPlanEstudioDAO {
-    public function buscarPlanEstudio();
+    public function buscarPlanEstudio($codigoEstudiante);
     public function validarMateriasDisponibles();
 }
