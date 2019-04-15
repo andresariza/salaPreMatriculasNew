@@ -33,11 +33,13 @@ class Prematricula implements \Sala\interfaces\Model {
 
         $ControlAcceso = new \Sala\lib\GestorDePrematriculas\control\ControlAcceso($Estudiante, $CarreraDAO->getCarreraDTO());
 
-        if ($ControlAcceso->validarDatosAccesoPrematricula()) {
+        if ($ControlAcceso->validarDatosAccesoPrematricula()) { 
             $estudianteDTO = $Estudiante->getEstudianteDTO();
             $PlanEstudioDAO = new \Sala\lib\GestorDePrematriculas\dao\PlanEstudioDAO();
             $PlanEstudioDAO->setCarreraDto($ControlAcceso->getCarreraDTO());
-            $PlanEstudioDAO->buscarPlanEstudio($estudianteDTO->getCodigo());
+            $PlanEstudioDAO->setCodigoEstudiante($estudianteDTO->getCodigo());
+            $PlanEstudioDAO->buscarPlanEstudio();
+            $PlanEstudioDAO->validarMateriasDisponibles($ControlAcceso->getPeriodoDTO());  
         }
         return array();
     }

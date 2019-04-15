@@ -17,13 +17,14 @@ defined('_EXEC') or die;
 class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria {
     private $id;
     private $estado;
-    private $modalidadMaestra;
+    private $modalidad;
     private $nombreCorto;
     private $nombreLargo;
     private $tipoCalificacion;
     private $numeroCreditos;
     private $semestre;
     private $preRequisito;
+    private $aprovado;
     
     public function __construct() {
     }
@@ -36,8 +37,8 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
         return $this->estado;
     }
 
-    public function getModalidadMaestra() {
-        return $this->modalidadMaestra;
+    public function getModalidad() {
+        return $this->modalidad;
     }
 
     public function getNombreCorto() {
@@ -63,6 +64,10 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     public function getPreRequisito(){
         return $this->preRequisito;
     }
+    
+    public function getAprovado() {
+        return $this->aprovado;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -72,8 +77,8 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
         $this->estado = $estado;
     }
 
-    public function setModalidadMaestra($modalidadMaestra) {
-        $this->modalidadMaestra = $modalidadMaestra;
+    public function setModalidad($modalidad) {
+        $this->modalidad = $modalidad;
     }
 
     public function setNombreCorto($nombreCorto) {
@@ -96,8 +101,25 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
         $this->semestre = $semestre;
     }
 
-    public function setPreRequisito($preRequisito) {
-        $this->preRequisito = $preRequisito;
+    public function setPreRequisito($idPlanEstudio,$codigoMateria = null) {
+        if(!empty($this->id)){
+            $idMateria = $this->id;
+        }else{
+            $idMateria = $codigoMateria;
+        }
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " codigotiporeferenciaplanestudio = 100 "
+                . " AND codigomateria = ".$db->qstr($idMateria)
+                . " AND idplanestudio = ".$db->qstr($idPlanEstudio);
+        
+        $preRequisito = \Sala\entidad\ReferenciaPlanEstudio::getList($where);
+        if(!empty($preRequisito)){
+            $this->preRequisito = $preRequisito[0]->getCodigomateriareferenciaplanestudio();
+        }
+    }
+
+    public function setAprovado($aprovado) {
+        $this->aprovado = $aprovado;
     }
         
     public function quitarMateria() {
@@ -110,7 +132,7 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     
     public function getMateriaDTO(){
         return new \Sala\lib\GestorDePrematriculas\dto\MateriaDTO($this->id, 
-                $this->estado, $this->modalidadMaestra, $this->nombreCorto, 
+                $this->estado, $this->modalidad, $this->nombreCorto, 
                 $this->nombreLargo, $this->tipoCalificacion, $this->numeroCreditos, 
                 $this->semestre, $this->preRequisito);
     }

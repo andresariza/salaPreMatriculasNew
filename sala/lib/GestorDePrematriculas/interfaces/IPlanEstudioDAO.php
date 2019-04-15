@@ -14,6 +14,6 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IPlanEstudioDAO {
-    public function buscarPlanEstudio($codigoEstudiante);
-    public function validarMateriasDisponibles();
+    public function buscarPlanEstudio();
+    public function validarMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO);
 }

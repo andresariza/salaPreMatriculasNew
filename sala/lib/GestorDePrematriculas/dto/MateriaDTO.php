@@ -18,18 +18,20 @@ class MateriaDTO {
     
     private $id;
     private $estado;
-    private $modalidadMaestra;
+    private $modalidad;
     private $nombreCorto;
     private $nombreLargo;
     private $tipoCalificacion;
     private $numeroCreditos;
     private $semestre;
     private $preRequisito;
+    private $aprovado;
+    private $listadoGrupos;
     
-    public function __construct($id, $estado, $modalidadMaestra, $nombreCorto, $nombreLargo, $tipoCalificacion, $numeroCreditos, $semestre, $preRequisito) {
+    public function __construct($id, $estado, $modalidad, $nombreCorto, $nombreLargo, $tipoCalificacion, $numeroCreditos, $semestre, $preRequisito) {
         $this->id = $id;
         $this->estado = $estado;
-        $this->modalidadMaestra = $modalidadMaestra;
+        $this->modalidad = $modalidad;
         $this->nombreCorto = $nombreCorto;
         $this->nombreLargo = $nombreLargo;
         $this->tipoCalificacion = $tipoCalificacion;
@@ -37,6 +39,7 @@ class MateriaDTO {
         $this->semestre = $semestre;
         $this->preRequisito = $preRequisito;
     }
+    
     public function getId() {
         return $this->id;
     }
@@ -45,8 +48,8 @@ class MateriaDTO {
         return $this->estado;
     }
 
-    public function getModalidadMaestra() {
-        return $this->modalidadMaestra;
+    public function getModalidad() {
+        return $this->modalidad;
     }
 
     public function getNombreCorto() {
@@ -72,6 +75,20 @@ class MateriaDTO {
     public function getPreRequisito() {
         return $this->preRequisito;
     }
-
-
+    
+    public function getAprovado() {
+        return $this->aprovado;
+    }
+    
+    public function getListadoGrupos() {
+        return $this->listadoGrupos;
+    }
+    
+    public function setAprovado($aprovado) {
+        $this->aprovado = $aprovado;
+    }
+    
+    public function setListadoGrupos(){
+        return $this->listadoGrupos;
+    }
 }
