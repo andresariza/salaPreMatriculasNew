@@ -17,7 +17,7 @@ defined('_EXEC') or die;
 class PazYSalvoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IPazYSalvo {
     private $Estudiante;
     
-    function __construct(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante) {
+    function __construct(\Sala\lib\GestorDePrematriculas\dto\EstudianteDTO $Estudiante) {
         $this->Estudiante = $Estudiante;
     }
     

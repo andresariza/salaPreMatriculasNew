@@ -14,7 +14,8 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IDAOFacade {
-    public function buscarPlanEstudio();
-    public function consultarCarrera();
-    public function validarMateriasDisponibles();
+    public function getEstudiante();
+    public function getPlanEstudio();
+    public function getCarrera();
+    public function getMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo);
 }

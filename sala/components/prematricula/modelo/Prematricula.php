@@ -24,24 +24,20 @@ class Prematricula implements \Sala\interfaces\Model {
     }
 
     public function getVariables($variables) {
-        $EstudianteDAO = new \Sala\lib\GestorDePrematriculas\dao\EstudianteDAO(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
-        $Estudiante = $EstudianteDAO->getEstudiante();
+        $return = array();
+        $DAOFacadeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOFacadeImpl();
         
-        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante")); 
-        $CarreraDAO = new \Sala\lib\GestorDePrematriculas\dao\CarreraDAO();
-        $CarreraDAO->consultarCarrera($carreraEstudiante->getCodigocarrera());
-
-        $ControlAcceso = new \Sala\lib\GestorDePrematriculas\control\ControlAcceso($Estudiante, $CarreraDAO->getCarreraDTO());
-
-        if ($ControlAcceso->validarDatosAccesoPrematricula()) { 
-            $estudianteDTO = $Estudiante->getEstudianteDTO();
-            $PlanEstudioDAO = new \Sala\lib\GestorDePrematriculas\dao\PlanEstudioDAO();
-            $PlanEstudioDAO->setCarreraDto($ControlAcceso->getCarreraDTO());
-            $PlanEstudioDAO->setCodigoEstudiante($estudianteDTO->getCodigo());
-            $PlanEstudioDAO->buscarPlanEstudio();
-            $PlanEstudioDAO->validarMateriasDisponibles($ControlAcceso->getPeriodoDTO());  
+        $ControlAcceso = new \Sala\lib\GestorDePrematriculas\control\ControlAcceso($DAOFacadeImpl->getEstudiante(), $DAOFacadeImpl->getCarrera());
+        $return['Estudiante'] = $DAOFacadeImpl->getEstudiante()->getEstudianteDTO();
+        $return['acceso'] = $ControlAcceso->validarDatosAccesoPrematricula();
+        if ( $return['acceso'] ) {
+            $DAOFacadeImpl->getPlanEstudio();
+            $return['PlanEstudio'] = $DAOFacadeImpl->getMateriasDisponibles($ControlAcceso->getPeriodoDTO());
+        } else {
+            $return['mensajeError'] = $ControlAcceso->getMensajeError();
         }
-        return array();
+        //d($return);
+        return $return;
     }
 
 }

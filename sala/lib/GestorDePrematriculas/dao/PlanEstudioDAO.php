@@ -20,7 +20,6 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
     private $nombre;
     private $codigoEstudiante;
     private $listadoMaterias;
-    private $listadoGrupos;
     
     public function __construct() {
         
@@ -44,6 +43,10 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
 
     public function getListadoMaterias() {
         return $this->listadoMaterias;
+    }
+
+    public function getPlanEstudioDTO() {
+        return new \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO($this->id, $this->nombre, $this->carreraDto, $this->codigoEstudiante, $this->listadoMaterias);
     }
 
     public function setId($id) {
@@ -84,25 +87,70 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
     }
 
     public function validarMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO) {
-        $db = \Sala\lib\Factory::createDbo();
-        d($periodoDTO);
+        $i = 0;
         foreach($this->listadoMaterias as $m){
-            $m->setAprovado(false);
-            $where = " idplanestudio = ".$db->qstr($this->id)
-                    . " AND codigoestudiante = ".$db->qstr($this->codigoEstudiante)
-                    . " AND codigomateria = ".$db->qstr($m->getId());
-            $eNotaHistorico = \Sala\entidad\NotaHistorico::getList($where);
-            if(!empty($eNotaHistorico)){ 
-                if( (int)$eNotaHistorico[0]->getNotadefinitiva() > 3){
-                    $m->setAprovado(true);
-                } else {
-                    $where = " codigomateria = ".$db->qstr($m->getId())
-                            . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
-                    d($where);
+            $m->setAprovado($this->validarMateriaAprovada($m->getId()));
+            if(!$m->getAprovado()){
+                $preRequisito = $m->getPreRequisito();
+                if(!empty($preRequisito)){
+                    $disponible = $this->validarMateriaAprovada($preRequisito);
+                    $m->setDisponibleMatricula($disponible);
+                }else{
+                    $m->setDisponibleMatricula(true);
                 }
             }
+            if($m->getDisponibleMatricula()){
+                $m->setListadoGrupos($this->getGruposMateria($m,$periodoDTO));
+            }
+            $i++;
         }
-        
+    }
+    
+    private function validarMateriaAprovada($idMateria){
+        $aprovado = false;
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " idplanestudio = ".$db->qstr($this->id)
+                . " AND codigoestudiante = ".$db->qstr($this->codigoEstudiante)
+                . " AND codigomateria = ".$db->qstr($idMateria);
+        $eNotaHistorico = \Sala\entidad\NotaHistorico::getList($where);
+        if(!empty($eNotaHistorico)){ 
+            if( (int)$eNotaHistorico[0]->getNotadefinitiva() > 3){
+                $aprovado = true;
+            }
+        }
+        /*/if($idMateria == 15040){
+            d($where);
+            d($eNotaHistorico);
+            d($aprovado);
+        }/**/
+        return $aprovado;
+    }
+    
+    private function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO){
+        $return = array();
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " codigomateria = ".$db->qstr($materia->getId())
+                . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
+        $eGrupo = \Sala\entidad\Grupo::getList($where);
+        if(!empty($eGrupo)){
+            foreach($eGrupo as $g){
+                $GrupoIMP = new \Sala\lib\GestorDePrematriculas\impl\GrupoImpl();
+                $GrupoIMP->setId($g->getIdgrupo());
+                $GrupoIMP->setDocente($g->getNumerodocumento());
+                $GrupoIMP->setEstado($g->getCodigoestadogrupo());
+                $GrupoIMP->setMateria($materia->getId());
+                $GrupoIMP->setNombre($g->getNombregrupo());
+                $GrupoIMP->setCodigoGrupo($g->getCodigogrupo());
+                $GrupoIMP->setCupoMaximo($g->getMaximogrupo());
+                $GrupoIMP->setCupoOcupado($g->getMatriculadosgrupo());
+                $GrupoIMP->setCupoElectiva($g->getMaximogrupoelectiva());
+                $GrupoIMP->setMatriculadosElectiva($g->getMatriculadosgrupoelectiva());
+                $GrupoIMP->setPeriodoDTO($periodoDTO);
+                $GrupoIMP->setHorariosGrupo();
+                $return[] = $GrupoIMP;
+            }
+        }
+        return $return;
     }
     
     private function getMateriasPlanEstudio(){

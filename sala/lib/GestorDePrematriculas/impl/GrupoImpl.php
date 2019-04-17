@@ -20,7 +20,13 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
     private $estado;
     private $materia;
     private $nombre;
+    private $codigoGrupo;
+    private $cupoMaximo;
+    private $cupoOcupado;
+    private $cupoElectiva;
+    private $matriculadosElectiva;
     private $periodoDTO;
+    private $horariosGrupo = array();
     
     public function __construct() {
         
@@ -49,7 +55,30 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
     public function getPeriodoDTO() {
         return $this->periodoDTO;
     }
+    
+    public function getCodigoGrupo() {
+        return $this->codigoGrupo;
+    }
 
+    public function getCupoMaximo() {
+        return $this->cupoMaximo;
+    }
+
+    public function getCupoOcupado() {
+        return $this->cupoOcupado;
+    }
+
+    public function getCupoElectiva() {
+        return $this->cupoElectiva;
+    }
+
+    public function getMatriculadosElectiva() {
+        return $this->matriculadosElectiva;
+    }
+    public function getHorariosGrupo() {
+        return $this->horariosGrupo;
+    }
+    
     public function setId($id) {
         $this->id = $id;
     }
@@ -74,8 +103,44 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
         $this->periodoDTO = $periodoDTO;
     }
 
+    public function setCodigoGrupo($codigoGrupo) {
+        $this->codigoGrupo = $codigoGrupo;
+    }
+
+    public function setCupoMaximo($cupoMaximo) {
+        $this->cupoMaximo = $cupoMaximo;
+    }
+
+    public function setCupoOcupado($cupoOcupado) {
+        $this->cupoOcupado = $cupoOcupado;
+    }
+
+    public function setCupoElectiva($cupoElectiva) {
+        $this->cupoElectiva = $cupoElectiva;
+    }
+
+    public function setMatriculadosElectiva($matriculadosElectiva) {
+        $this->matriculadosElectiva = $matriculadosElectiva;
+    }
     
-    //put your code here
+    public function setHorariosGrupo() {
+        $dias = array("Domingo","Lunes","Martes","Mi&eacute;rcoles","Jueves","Viernes","S&aacute;bado");
+        $db = \Sala\lib\Factory::createDbo();
+        $where = " idgrupo = ".$db->qstr($this->getId())
+                . " AND codigoestado = 100";
+        $listadoHorarios = \Sala\entidad\Horario::getList($where);
+        
+        $i=0;
+        if(!empty($listadoHorarios)){
+            foreach($listadoHorarios as $horario){
+                $this->horariosGrupo[$i] = new \Sala\lib\GestorDePrematriculas\dto\HorarioDTO($horario->getCodigodia(), $dias[$horario->getCodigodia()], $horario->getHorainicial(), $horario->getHorafinal());
+                $i++;
+            }
+        } else {
+            $this->horariosGrupo[$i] = new \Sala\lib\GestorDePrematriculas\dto\HorarioDTO(0, "Sin horario", "00:00", "00:00");
+        }
+    }
+    
     public function quitar() {
         
     }

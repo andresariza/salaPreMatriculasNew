@@ -22,6 +22,7 @@ class ControlAcceso {
     private $Estudiante;
     private $fechaAcademica;
     private $pazYSalvo;
+    private $mensajeError = array();
     
     public function __construct(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante, 
             \Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO) {
@@ -35,10 +36,22 @@ class ControlAcceso {
     }
     
     public function validarDatosAccesoPrematricula(){
+        $permiso = true;
         
-        return ( $this->fechaAcademica->validarFechaAcademica() &&
-                $this->Estudiante->validarEstado() && 
-                $this->pazYSalvo->validarPazYSalvoEstudiante());
+        if($this->fechaAcademica->validarFechaAcademica()===false){
+            $permiso = false;
+            $this->mensajeError[] = "No se encuentra dentro de las fechas permitidas para prematricula";
+        }
+        if($this->Estudiante->validarEstado()===false){
+            $permiso = false;
+            $this->mensajeError[] = "No se encuentra como estudiante activo";
+        }
+        if($this->pazYSalvo->validarPazYSalvoEstudiante()===false){
+            $permiso = false;
+            $this->mensajeError[] = "No se encuentra a paz y salvo";
+        }
+        
+        return $permiso;
     }
     
     public function setPeriodoDTO(){
@@ -67,7 +80,7 @@ class ControlAcceso {
     }
     
     private function setPazYSalvo(){
-        $this->pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante);
+        $this->pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante->getEstudianteDTO());
     }
     public function getCarreraDTO() {
         return $this->carreraDTO;
@@ -87,5 +100,9 @@ class ControlAcceso {
 
     public function getPazYSalvo() {
         return $this->pazYSalvo;
+    }
+    
+    public function getMensajeError() {
+        return $this->mensajeError;
     }
 }

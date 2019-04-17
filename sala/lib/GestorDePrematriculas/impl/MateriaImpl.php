@@ -25,6 +25,7 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     private $semestre;
     private $preRequisito;
     private $aprovado;
+    private $disponibleMatricula = false;
     
     public function __construct() {
     }
@@ -67,6 +68,10 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
     
     public function getAprovado() {
         return $this->aprovado;
+    }
+    
+    public function getDisponibleMatricula() {
+        return $this->disponibleMatricula;
     }
 
     public function setId($id) {
@@ -120,6 +125,10 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
 
     public function setAprovado($aprovado) {
         $this->aprovado = $aprovado;
+    }
+    
+    public function setDisponibleMatricula($disponibleMatricula) {
+        $this->disponibleMatricula = $disponibleMatricula;
     }
         
     public function quitarMateria() {

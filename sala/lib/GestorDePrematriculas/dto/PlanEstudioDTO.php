@@ -15,14 +15,21 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class PlanEstudioDTO {
-    private $carrera;
     private $id;
     private $nombre;
-    public function __construct($carrera, $id, $nombre) {
+    private $carrera;
+    private $codigoEstudiante;
+    private $listadoMaterias;
+    
+    
+    public function __construct($id, $nombre, $carrera, $codigoEstudiante, $listadoMaterias) {
         $this->carrera = $carrera;
         $this->id = $id;
         $this->nombre = $nombre;
+        $this->codigoEstudiante = $codigoEstudiante;
+        $this->listadoMaterias = $listadoMaterias;
     }
+
     public function getCarrera() {
         return $this->carrera;
     }
@@ -33,5 +40,12 @@ class PlanEstudioDTO {
 
     public function getNombre() {
         return $this->nombre;
+    }
+    public function getCodigoEstudiante() {
+        return $this->codigoEstudiante;
+    }
+
+    public function getListadoMaterias() {
+        return $this->listadoMaterias;
     }
 }

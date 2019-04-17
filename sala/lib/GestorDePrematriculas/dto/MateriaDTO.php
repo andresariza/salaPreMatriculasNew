@@ -27,6 +27,7 @@ class MateriaDTO {
     private $preRequisito;
     private $aprovado;
     private $listadoGrupos;
+    private $disponibleMatricula = false;
     
     public function __construct($id, $estado, $modalidad, $nombreCorto, $nombreLargo, $tipoCalificacion, $numeroCreditos, $semestre, $preRequisito) {
         $this->id = $id;
@@ -88,7 +89,15 @@ class MateriaDTO {
         $this->aprovado = $aprovado;
     }
     
-    public function setListadoGrupos(){
-        return $this->listadoGrupos;
+    public function getDisponibleMatricula() {
+        return $this->disponibleMatricula;
+    }
+    
+    public function setListadoGrupos($listadoGrupos){
+        $this->listadoGrupos = $listadoGrupos;
+    }
+
+    public function setDisponibleMatricula($disponibleMatricula) {
+        $this->disponibleMatricula = $disponibleMatricula;
     }
 }
