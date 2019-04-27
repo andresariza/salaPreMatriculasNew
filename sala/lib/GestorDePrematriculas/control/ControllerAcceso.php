@@ -13,9 +13,8 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-use \Sala\lib\Factory;
 use \Sala\lib\Servicios;
-class ControlAcceso {
+class ControllerAcceso {
     
     private $carreraDTO;
     private $periodoDTO;
@@ -24,7 +23,7 @@ class ControlAcceso {
     private $pazYSalvo;
     private $mensajeError = array();
     
-    public function __construct(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante, 
+    public function __construct(\Sala\lib\GestorDePrematriculas\interfaces\IEstudiante $Estudiante, 
             \Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO) {
         $this->setEstudiante($Estudiante);
         $this->setCarreraDTO($CarreraDTO);
@@ -71,7 +70,7 @@ class ControlAcceso {
         $this->carreraDTO = $CarreraDTO;
     }
     
-    public function setEstudiante(\Sala\lib\GestorDePrematriculas\impl\EstudianteImpl $Estudiante){
+    public function setEstudiante(\Sala\lib\GestorDePrematriculas\interfaces\IEstudiante $Estudiante){
         $this->Estudiante = $Estudiante;
     }
     

@@ -1,0 +1,61 @@
+.dia,
+.dia div{
+    max-width: 150px;
+}
+.portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+}
+.panel-collapse .remover{
+    display: none;
+}
+.panel-collapse span.nombreMateria,
+.panel-collapse span.numeroSemestre,
+.panel-collapse span.numeroCreditos
+{
+    display: none;
+}
+.arrastrable{
+    cursor: move;
+}
+.arrastrable.unsortable{
+    cursor: no-drop;
+}
+.Destino .arrastrable .mensajeArrastrar,
+.unsortable .seleccionarGrupo,
+.panel-collapse .arrastrable .mensajeArrastrar{
+    display: none;
+}
+.panel-collapse .arrastrable:hover .mensajeArrastrar{
+    display: block;
+}
+.panel-collapse .arrastrable.unsortable .mensajeArrastrar{
+    display: none !important;
+}
+.panel-collapse .arrastrable.unsortable .mensajeMateriaSeleccionada{
+    display: block !important;
+}
+.Destino{
+    width:100%; 
+    min-height: 300px;
+}
+.Destino .previsualizar,
+.Destino .seleccionarGrupo{
+    display: none;
+}
+.panel-group.accordion .panel-title a{
+    position: relative;
+}
+.arrowAlignRight{
+    position: absolute;
+    right: -9px;
+    display: inline-block;
+    width: 20px;
+}
+a[aria-expanded="false"] div.arrowAlignRight .fa-chevron-down{
+    display: none;
+}
+a[aria-expanded="true"] div.arrowAlignRight .fa-chevron-right{
+    display: none;
+}

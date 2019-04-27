@@ -14,96 +14,87 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria {
-    private $id;
-    private $estado;
-    private $modalidad;
-    private $nombreCorto;
-    private $nombreLargo;
-    private $tipoCalificacion;
-    private $numeroCreditos;
-    private $semestre;
-    private $preRequisito;
-    private $aprovado;
-    private $disponibleMatricula = false;
+class MateriaImpl {
+    private $MateriaDTO; 
     
     public function __construct() {
+        $this->MateriaDTO = new \Sala\lib\GestorDePrematriculas\dto\MateriaDTO();
     }
     
     public function getId() {
-        return $this->id;
+        return $this->MateriaDTO->getId();
     }
 
     public function getEstado() {
-        return $this->estado;
+        return $this->MateriaDTO->getEstado();
     }
 
     public function getModalidad() {
-        return $this->modalidad;
+        return $this->MateriaDTO->getModalidad();
     }
 
     public function getNombreCorto() {
-        return $this->nombreCorto;
+        return $this->MateriaDTO->getNombreCorto();
     }
 
     public function getNombreLargo() {
-        return $this->nombreLargo;
+        return $this->MateriaDTO->getNombreLargo();
     }
 
     public function getTipoCalificacion() {
-        return $this->tipoCalificacion;
+        return $this->MateriaDTO->getTipoCalificacion();
     }
     
     public function getNumeroCreditos() {
-        return $this->numeroCreditos;
+        return $this->MateriaDTO->getNumeroCreditos();
     }
 
     public function getSemestre() {
-        return $this->semestre;
+        return $this->MateriaDTO->getSemestre();
     }
     
     public function getPreRequisito(){
-        return $this->preRequisito;
+        return $this->MateriaDTO->getPreRequisito();
     }
     
     public function getAprovado() {
-        return $this->aprovado;
+        return $this->MateriaDTO->getAprovado();
     }
     
     public function getDisponibleMatricula() {
-        return $this->disponibleMatricula;
+        return $this->MateriaDTO->getDisponibleMatricula();
     }
 
     public function setId($id) {
-        $this->id = $id;
+        $this->MateriaDTO->setId($id);
     }
 
     public function setEstado($estado) {
-        $this->estado = $estado;
+        $this->MateriaDTO->setEstado($estado);
     }
 
     public function setModalidad($modalidad) {
-        $this->modalidad = $modalidad;
+        $this->MateriaDTO->setModalidad($modalidad);
     }
 
     public function setNombreCorto($nombreCorto) {
-        $this->nombreCorto = $nombreCorto;
+        $this->MateriaDTO->setNombreCorto($nombreCorto);
     }
 
     public function setNombreLargo($nombreLargo) {
-        $this->nombreLargo = $nombreLargo;
+        $this->MateriaDTO->setNombreLargo($nombreLargo);
     }
 
     public function setTipoCalificacion($tipoCalificacion) {
-        $this->tipoCalificacion = $tipoCalificacion;
+        $this->MateriaDTO->setTipoCalificacion($tipoCalificacion);
     }
 
     public function setNumeroCreditos($numeroCreditos) {
-        $this->numeroCreditos = $numeroCreditos;
+        $this->MateriaDTO->setNumeroCreditos($numeroCreditos);
     }
 
     public function setSemestre($semestre) {
-        $this->semestre = $semestre;
+        $this->MateriaDTO->setSemestre($semestre);
     }
 
     public function setPreRequisito($idPlanEstudio,$codigoMateria = null) {
@@ -119,31 +110,20 @@ class MateriaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IMateria
         
         $preRequisito = \Sala\entidad\ReferenciaPlanEstudio::getList($where);
         if(!empty($preRequisito)){
-            $this->preRequisito = $preRequisito[0]->getCodigomateriareferenciaplanestudio();
+            $this->MateriaDTO->setPreRequisito($preRequisito[0]->getCodigomateriareferenciaplanestudio());
         }
     }
 
     public function setAprovado($aprovado) {
-        $this->aprovado = $aprovado;
+        $this->MateriaDTO->setAprovado($aprovado);
     }
     
     public function setDisponibleMatricula($disponibleMatricula) {
-        $this->disponibleMatricula = $disponibleMatricula;
-    }
-        
-    public function quitarMateria() {
-        
-    }
-
-    public function seleccionarMateria() {
-        
+        $this->MateriaDTO->setDisponibleMatricula( $disponibleMatricula );
     }
     
     public function getMateriaDTO(){
-        return new \Sala\lib\GestorDePrematriculas\dto\MateriaDTO($this->id, 
-                $this->estado, $this->modalidad, $this->nombreCorto, 
-                $this->nombreLargo, $this->tipoCalificacion, $this->numeroCreditos, 
-                $this->semestre, $this->preRequisito);
+        return $this->MateriaDTO;
     }
 
 }

@@ -14,7 +14,7 @@ namespace Sala\lib\GestorDePrematriculas\dao;
  * @author Andres
  */
 class EstudianteDAO {
-    private $Estudiante;
+    private $EstudianteImpl;
     
     public function __construct($codigo, $idEstudianteGeneral) {
         $eEstudiante = new \Sala\entidad\Estudiante();
@@ -29,18 +29,18 @@ class EstudianteDAO {
         $eEstudianteGeneral->getById();
         //d($eEstudianteGeneral);
         
-        $this->Estudiante = new \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
+        $this->EstudianteImpl = new \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
                 $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
                 $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral());
         
     }
     
     public function getEstudiante(){
-        return $this->Estudiante;
+        return $this->EstudianteImpl;
     }
     
     public function getEstudianteDTO(){
-        return $this->Estudiante->getEstudianteDTO();
+        return $this->EstudianteImpl->getEstudianteDTO();
     }
     //put your code here
 }

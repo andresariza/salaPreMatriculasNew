@@ -13,8 +13,5 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-interface IGrupo {
-    public function seleccionar();
-    public function quitar();
-    public static function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO);
+interface IDAOBridge {
 }

@@ -14,10 +14,7 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class CarreraDAO implements \Sala\lib\GestorDePrematriculas\interfaces\ICarreraDAO {
-    private $id;
-    private $nombre;
-    private $nombreCorto;
-    private $titulo;
+    private $carreraDTO;
     
     public function __construct() {
     }
@@ -28,13 +25,12 @@ class CarreraDAO implements \Sala\lib\GestorDePrematriculas\interfaces\ICarreraD
         $carrera->setCodigocarrera($codigocarrera);
         $carrera->getById();
         
-        $this->id = $carrera->getCodigocarrera();
-        $this->nombre = $carrera->getNombrecarrera();
-        $this->nombreCorto = $carrera->getNombrecortocarrera();
+        $this->carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO($carrera->getCodigocarrera(), 
+                $carrera->getNombrecarrera(), $carrera->getNombrecortocarrera());
     }
     
     public function getCarreraDTO(){
-        return new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO($this->id, $this->nombre, $this->titulo);
+        return $this->carreraDTO;
     }
 
 }

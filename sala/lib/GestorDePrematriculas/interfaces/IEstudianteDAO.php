@@ -13,6 +13,6 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-interface IPeriodo {
-    public function getPeriodoActivo();
+interface IEstudianteDAO {
+    public function getEstudiante();
 }

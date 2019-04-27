@@ -6,15 +6,15 @@
  * and open the template in the editor.
  */
 
-namespace Sala\lib\GestorDePrematriculas\impl;
+namespace Sala\lib\GestorDePrematriculas\dto;
 defined('_EXEC') or die;
 
 /**
- * Description of GrupoImpl
+ * Description of GrupoDTO
  *
  * @author Andres
  */
-class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
+class GrupoDTO {
     private $id;
     private $docente;
     private $estado;
@@ -140,40 +140,4 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
             $this->horariosGrupo[$i] = new \Sala\lib\GestorDePrematriculas\dto\HorarioDTO(0, "Sin horario", "00:00", "00:00");
         }
     }
-    
-    public function quitar() {
-        
-    }
-
-    public function seleccionar() {
-        
-    }
-
-    public static function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO) {
-        $return = array();
-        $db = \Sala\lib\Factory::createDbo();
-        $where = " codigomateria = ".$db->qstr($materia->getId())
-                . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
-        $eGrupo = \Sala\entidad\Grupo::getList($where);
-        if(!empty($eGrupo)){
-            foreach($eGrupo as $g){
-                $GrupoDTO = new \Sala\lib\GestorDePrematriculas\dto\GrupoDTO();
-                $GrupoDTO->setId($g->getIdgrupo());
-                $GrupoDTO->setDocente($g->getNumerodocumento());
-                $GrupoDTO->setEstado($g->getCodigoestadogrupo());
-                $GrupoDTO->setMateria($materia->getId());
-                $GrupoDTO->setNombre($g->getNombregrupo());
-                $GrupoDTO->setCodigoGrupo($g->getCodigogrupo());
-                $GrupoDTO->setCupoMaximo($g->getMaximogrupo());
-                $GrupoDTO->setCupoOcupado($g->getMatriculadosgrupo());
-                $GrupoDTO->setCupoElectiva($g->getMaximogrupoelectiva());
-                $GrupoDTO->setMatriculadosElectiva($g->getMatriculadosgrupoelectiva());
-                $GrupoDTO->setPeriodoDTO($periodoDTO);
-                $GrupoDTO->setHorariosGrupo();
-                $return[] = $GrupoDTO;
-            }
-        }
-        return $return;
-    }
-
 }

@@ -27,14 +27,14 @@ class Prematricula implements \Sala\interfaces\Model {
         $return = array();
         $DAOFacadeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOFacadeImpl();
         
-        $ControlAcceso = new \Sala\lib\GestorDePrematriculas\control\ControlAcceso($DAOFacadeImpl->getEstudiante(), $DAOFacadeImpl->getCarrera());
+        $ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso($DAOFacadeImpl->getEstudiante(), $DAOFacadeImpl->getCarrera());
         $return['Estudiante'] = $DAOFacadeImpl->getEstudiante()->getEstudianteDTO();
-        $return['acceso'] = $ControlAcceso->validarDatosAccesoPrematricula();
+        $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
             $DAOFacadeImpl->getPlanEstudio();
-            $return['PlanEstudio'] = $DAOFacadeImpl->getMateriasDisponibles($ControlAcceso->getPeriodoDTO());
+            $return['PlanEstudio'] = $DAOFacadeImpl->getMateriasDisponibles($ControllerAcceso->getPeriodoDTO());
         } else {
-            $return['mensajeError'] = $ControlAcceso->getMensajeError();
+            $return['mensajeError'] = $ControllerAcceso->getMensajeError();
         }
         //d($return);
         return $return;

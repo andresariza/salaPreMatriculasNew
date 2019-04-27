@@ -15,7 +15,6 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class MateriaDTO {
-    
     private $id;
     private $estado;
     private $modalidad;
@@ -29,18 +28,44 @@ class MateriaDTO {
     private $listadoGrupos;
     private $disponibleMatricula = false;
     
-    public function __construct($id, $estado, $modalidad, $nombreCorto, $nombreLargo, $tipoCalificacion, $numeroCreditos, $semestre, $preRequisito) {
+    public function __construct() {
+    }
+    public function setId($id) {
         $this->id = $id;
+    }
+
+    public function setEstado($estado) {
         $this->estado = $estado;
+    }
+
+    public function setModalidad($modalidad) {
         $this->modalidad = $modalidad;
+    }
+
+    public function setNombreCorto($nombreCorto) {
         $this->nombreCorto = $nombreCorto;
+    }
+
+    public function setNombreLargo($nombreLargo) {
         $this->nombreLargo = $nombreLargo;
+    }
+
+    public function setTipoCalificacion($tipoCalificacion) {
         $this->tipoCalificacion = $tipoCalificacion;
+    }
+
+    public function setNumeroCreditos($numeroCreditos) {
         $this->numeroCreditos = $numeroCreditos;
+    }
+
+    public function setSemestre($semestre) {
         $this->semestre = $semestre;
+    }
+
+    public function setPreRequisito($preRequisito) {
         $this->preRequisito = $preRequisito;
     }
-    
+
     public function getId() {
         return $this->id;
     }

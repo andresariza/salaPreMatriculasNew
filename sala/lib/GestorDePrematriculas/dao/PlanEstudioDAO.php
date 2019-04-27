@@ -15,63 +15,59 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlanEstudioDAO {
-    private $id;
-    private $carreraDto;
-    private $nombre;
-    private $codigoEstudiante;
-    private $listadoMaterias;
+    private $PlanEstudioDTO;
     
     public function __construct() {
-        
+        $this->PlanEstudioDTO = new \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO();
     }
     
     public function getId() {
-        return $this->id;
+        return $this->PlanEstudioDTO->getId();
     }
 
     public function getCarreraDto() {
-        return $this->carreraDto;
+        return $this->PlanEstudioDTO->getCarreraDto();
     }
 
     public function getNombre() {
-        return $this->nombre;
+        return $this->PlanEstudioDTO->getNombre();
     }
     
     public function getCodigoEstudiante() {
-        return $this->codigoEstudiante;
+        return $this->PlanEstudioDTO->getCodigoEstudiante();
     }
 
     public function getListadoMaterias() {
-        return $this->listadoMaterias;
+        return $this->PlanEstudioDTO->getListadoMaterias();
     }
 
     public function getPlanEstudioDTO() {
-        return new \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO($this->id, $this->nombre, $this->carreraDto, $this->codigoEstudiante, $this->listadoMaterias);
+        return $this->PlanEstudioDTO;
     }
 
     public function setId($id) {
-        $this->id = $id;
+        $this->PlanEstudioDTO->setId($id);
     }
 
     public function setCarreraDto($carreraDto) {
-        $this->carreraDto = $carreraDto;
+        $this->PlanEstudioDTO->setCarrera($carreraDto);
     }
 
     public function setNombre($nombre) {
-        $this->nombre = $nombre;
+        $this->PlanEstudioDTO->setNombre($nombre);
     }
     
     public function setCodigoEstudiante($codigoEstudiante) {
-        $this->codigoEstudiante = $codigoEstudiante;
+        $this->PlanEstudioDTO->setCodigoEstudiante($codigoEstudiante);
     }
 
     public function setListadoMaterias($listadoMaterias) {
-        $this->listadoMaterias = $listadoMaterias;
+        $this->PlanEstudioDTO->setListadoMaterias($listadoMaterias);
     }
 
     public function buscarPlanEstudio() {
         $db = \Sala\lib\Factory::createDbo();
-        $where = " codigoestudiante = ".$db->qstr($this->codigoEstudiante);
+        $where = " codigoestudiante = ".$db->qstr($this->getCodigoEstudiante());
         $ePlanEstudioEstudiante = \Sala\entidad\PlanEstudioEstudiante::getList($where);
         
         if(!empty($ePlanEstudioEstudiante)){
@@ -80,15 +76,15 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
             $ePlanEstudio->setIdplanestudio($ePlanEstudioEstudiante[0]->getIdplanestudio());
             $ePlanEstudio->getById();
             
-            $this->id = $ePlanEstudio->getIdplanestudio();
-            $this->nombre = $ePlanEstudio->getNombreplanestudio();
+            $this->setId($ePlanEstudio->getIdplanestudio());
+            $this->setNombre($ePlanEstudio->getNombreplanestudio());
             $this->setListadoMaterias($this->getMateriasPlanEstudio());
         }
     }
 
     public function validarMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO) {
         $i = 0;
-        foreach($this->listadoMaterias as $m){
+        foreach($this->getListadoMaterias() as $m){
             $m->setAprovado($this->validarMateriaAprovada($m->getId()));
             if(!$m->getAprovado()){
                 $preRequisito = $m->getPreRequisito();
@@ -109,8 +105,8 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
     private function validarMateriaAprovada($idMateria){
         $aprovado = false;
         $db = \Sala\lib\Factory::createDbo();
-        $where = " idplanestudio = ".$db->qstr($this->id)
-                . " AND codigoestudiante = ".$db->qstr($this->codigoEstudiante)
+        $where = " idplanestudio = ".$db->qstr($this->getId())
+                . " AND codigoestudiante = ".$db->qstr($this->getCodigoEstudiante())
                 . " AND codigomateria = ".$db->qstr($idMateria);
         $eNotaHistorico = \Sala\entidad\NotaHistorico::getList($where);
         if(!empty($eNotaHistorico)){ 
@@ -127,41 +123,19 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
     }
     
     private function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO){
-        $return = array();
-        $db = \Sala\lib\Factory::createDbo();
-        $where = " codigomateria = ".$db->qstr($materia->getId())
-                . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
-        $eGrupo = \Sala\entidad\Grupo::getList($where);
-        if(!empty($eGrupo)){
-            foreach($eGrupo as $g){
-                $GrupoIMP = new \Sala\lib\GestorDePrematriculas\impl\GrupoImpl();
-                $GrupoIMP->setId($g->getIdgrupo());
-                $GrupoIMP->setDocente($g->getNumerodocumento());
-                $GrupoIMP->setEstado($g->getCodigoestadogrupo());
-                $GrupoIMP->setMateria($materia->getId());
-                $GrupoIMP->setNombre($g->getNombregrupo());
-                $GrupoIMP->setCodigoGrupo($g->getCodigogrupo());
-                $GrupoIMP->setCupoMaximo($g->getMaximogrupo());
-                $GrupoIMP->setCupoOcupado($g->getMatriculadosgrupo());
-                $GrupoIMP->setCupoElectiva($g->getMaximogrupoelectiva());
-                $GrupoIMP->setMatriculadosElectiva($g->getMatriculadosgrupoelectiva());
-                $GrupoIMP->setPeriodoDTO($periodoDTO);
-                $GrupoIMP->setHorariosGrupo();
-                $return[] = $GrupoIMP;
-            }
-        }
-        return $return;
+        return \Sala\lib\GestorDePrematriculas\impl\GrupoImpl::getGruposMateria($materia, $periodoDTO);
     }
     
     private function getMateriasPlanEstudio(){
         $return = array();
         $db = \Sala\lib\Factory::createDbo();
-        $where = " idplanestudio = ".$db->qstr($this->id)
+        $where = " idplanestudio = ".$db->qstr($this->getId())
                 . " ORDER BY  CONVERT(semestredetalleplanestudio,UNSIGNED INTEGER) ";
         $listadoMaterias = \Sala\entidad\DetallePlanEstudio::getList($where);
         foreach($listadoMaterias as $m){
             $return[] = $this->getMateria($m);
         }
+        
         return $return;
     }
     
@@ -177,10 +151,10 @@ class PlanEstudioDAO implements \Sala\lib\GestorDePrematriculas\interfaces\IPlan
         $MateriaImpl->setNombreCorto($materia->getNombrecortomateria());
         $MateriaImpl->setNombreLargo($materia->getNombremateria());
         $MateriaImpl->setNumeroCreditos($m->getNumerocreditosdetalleplanestudio());
-        $MateriaImpl->setPreRequisito($this->id);
+        $MateriaImpl->setPreRequisito($this->getId());
         $MateriaImpl->setSemestre($m->getSemestredetalleplanestudio());
         $MateriaImpl->setTipoCalificacion($materia->getCodigotipocalificacionmateria());
-        
+         
         unset($materia);
         return $MateriaImpl->getMateriaDTO();
     }

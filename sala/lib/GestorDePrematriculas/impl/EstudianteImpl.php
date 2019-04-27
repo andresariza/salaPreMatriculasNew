@@ -7,19 +7,11 @@ defined('_EXEC') or die;
  * @author Andres
  */
 class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante {
-    private $id;
-    private $codigo;
-    private $estado;
-    private $nombres;
-    private $apellidos;
+    private $estudianteDTO; 
     
     function __construct($id, $codigo, $estado, $nombres, $apellidos) {
-        $this->id = $id;
-        $this->codigo = $codigo;
-        $this->estado = $estado;
-        $this->nombres = $nombres;
-        $this->apellidos = $apellidos;
-        //d(1);
+        $this->estudianteDTO = new \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO($id, $codigo, $estado, 
+                $nombres, $apellidos);
     }
 
     
@@ -30,7 +22,7 @@ class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEst
 
     public function validarEstado() {
         $return = false;
-        if($this->estado == 301){
+        if($this->estudianteDTO->getEstado() == 301){
             $return = true;
         }
         return $return;
@@ -41,8 +33,7 @@ class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEst
     }
     
     public function getEstudianteDTO(){
-        return new \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO($this->id, 
-                $this->codigo, $this->estado, $this->nombres, $this->apellidos);
+        return $this->estudianteDTO;
     }
 
 }

@@ -22,11 +22,26 @@ class PlanEstudioDTO {
     private $listadoMaterias;
     
     
-    public function __construct($id, $nombre, $carrera, $codigoEstudiante, $listadoMaterias) {
-        $this->carrera = $carrera;
+    public function __construct() {
+    }
+    
+    public function setId($id) {
         $this->id = $id;
+    }
+
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
+    }
+
+    public function setCarrera($carrera) {
+        $this->carrera = $carrera;
+    }
+
+    public function setCodigoEstudiante($codigoEstudiante) {
         $this->codigoEstudiante = $codigoEstudiante;
+    }
+
+    public function setListadoMaterias($listadoMaterias) {
         $this->listadoMaterias = $listadoMaterias;
     }
 
