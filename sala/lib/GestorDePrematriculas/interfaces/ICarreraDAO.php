@@ -13,6 +13,6 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-interface ICarreraDAO extends IDAOBridge {
+interface ICarreraDAO {
     public function consultarCarrera($codigocarrera);
 }

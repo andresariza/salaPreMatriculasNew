@@ -31,7 +31,7 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
         ?>
         <div class="panel-body">
             <div class="row">
-                <div class="alert alert-info fade in">
+                <div class="alert alert-info  fa-2x fade in">
                     <button class="close" data-dismiss="alert"><span>×</span></button>
                     <strong><i class="fa fa-info-circle"></i></strong> Para agregar un grupo, haga clic sobre nombre de la materia y arrastre el grupo deseado al panel de grupos seleccionados, ó haga clic en el boton selecionar.
                 </div>
@@ -43,13 +43,13 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                         <?php
                         foreach ($listadoMateriasDisponibles as $materia) {
                             ?>
-                            <div class="panel">
-                                    <div class="panel-heading">
-                                    <h5 class="panel-title">
+                            <div class="panel" style="margin-bottom: 15px;">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title" style="line-height: 15px;">
                                         <a data-parent="#accordion" data-toggle="collapse" href="#collapse<?php echo $materia->getId(); ?>" aria-expanded="false" class="collapsed">
                                             <span class="text-normal">
                                                 <?php echo $materia->getNombreLargo(); ?> 
-                                            </span>
+                                            </span><br>
                                             <span class="text-xs text-light">
                                                 <strong>Semestre:</strong> <?php echo $materia->getSemestre(); ?> - 
                                             </span>

@@ -27,9 +27,7 @@ class CarreraDAO implements \Sala\lib\GestorDePrematriculas\interfaces\ICarreraD
         
         $this->carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO($carrera->getCodigocarrera(), 
                 $carrera->getNombrecarrera(), $carrera->getNombrecortocarrera());
-    }
-    
-    public function getCarreraDTO(){
+        
         return $this->carreraDTO;
     }
 

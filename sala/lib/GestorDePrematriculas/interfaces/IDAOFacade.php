@@ -15,7 +15,6 @@ defined('_EXEC') or die;
  */
 interface IDAOFacade {
     public function getEstudiante();
-    public function getPlanEstudio();
+    public function getPlanEstudio(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo);
     public function getCarrera();
-    public function getMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo);
 }

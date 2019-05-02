@@ -13,7 +13,7 @@ defined('_EXEC') or die;
  *
  * @author Andres
  */
-interface IPlanEstudioDAO extends IDAOBridge  {
+interface IPlanEstudioDAO {
     public function buscarPlanEstudio();
     public function validarMateriasDisponibles(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO);
 }

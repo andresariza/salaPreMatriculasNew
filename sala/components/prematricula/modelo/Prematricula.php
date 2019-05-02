@@ -25,14 +25,18 @@ class Prematricula implements \Sala\interfaces\Model {
 
     public function getVariables($variables) {
         $return = array();
-        $DAOFacadeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOFacadeImpl();
+        //$DAOFacadeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOFacadeImpl();
+        $DAOBridgeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl();
         
-        $ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso($DAOFacadeImpl->getEstudiante(), $DAOFacadeImpl->getCarrera());
-        $return['Estudiante'] = $DAOFacadeImpl->getEstudiante()->getEstudianteDTO();
+        //$ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso($DAOFacadeImpl->getEstudiante(), $DAOFacadeImpl->getCarrera());
+        $ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso($DAOBridgeImpl->getEstudiante(), $DAOBridgeImpl->getCarrera());
+        //$return['Estudiante'] = $DAOFacadeImpl->getEstudiante()->getEstudianteDTO();
+        $return['Estudiante'] = $DAOBridgeImpl->getEstudiante()->getEstudianteDTO();
         $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
-            $DAOFacadeImpl->getPlanEstudio();
-            $return['PlanEstudio'] = $DAOFacadeImpl->getMateriasDisponibles($ControllerAcceso->getPeriodoDTO());
+            //$DAOFacadeImpl->getPlanEstudio();
+            //$return['PlanEstudio'] = $DAOFacadeImpl->getMateriasDisponibles($ControllerAcceso->getPeriodoDTO());
+            $return['PlanEstudio'] = $DAOBridgeImpl->getPlanEstudio($ControllerAcceso->getPeriodoDTO());
         } else {
             $return['mensajeError'] = $ControllerAcceso->getMensajeError();
         }
