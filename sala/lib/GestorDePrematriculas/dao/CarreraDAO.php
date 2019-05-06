@@ -8,24 +8,26 @@
 
 namespace Sala\lib\GestorDePrematriculas\dao;
 defined('_EXEC') or die;
+use \Sala\entidad\Carrera;
+use \Sala\lib\GestorDePrematriculas\interfaces\ICarreraDAO;
+use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
 /**
  * Description of CarreraDAO
  *
  * @author Andres
  */
-class CarreraDAO implements \Sala\lib\GestorDePrematriculas\interfaces\ICarreraDAO {
+class CarreraDAO implements ICarreraDAO {
     private $carreraDTO;
     
     public function __construct() {
     }
 
     public function consultarCarrera($codigocarrera) {
-        $carrera = new \Sala\entidad\Carrera();
-        $carrera->setDb();
+        $carrera = new Carrera();
         $carrera->setCodigocarrera($codigocarrera);
         $carrera->getById();
         
-        $this->carreraDTO = new \Sala\lib\GestorDePrematriculas\dto\CarreraDTO($carrera->getCodigocarrera(), 
+        $this->carreraDTO = new CarreraDTO($carrera->getCodigocarrera(), 
                 $carrera->getNombrecarrera(), $carrera->getNombrecortocarrera());
         
         return $this->carreraDTO;

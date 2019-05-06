@@ -8,16 +8,18 @@
 
 namespace Sala\lib\GestorDePrematriculas\impl;
 defined('_EXEC') or die;
+use \Sala\lib\GestorDePrematriculas\interfaces\IPazYSalvo;
+use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 
 /**
  * Description of PazYSalvoImpl
  *
  * @author Andres
  */
-class PazYSalvoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IPazYSalvo {
+class PazYSalvoImpl implements IPazYSalvo {
     private $Estudiante;
     
-    function __construct(\Sala\lib\GestorDePrematriculas\dto\EstudianteDTO $Estudiante) {
+    function __construct(EstudianteDTO $Estudiante) {
         $this->Estudiante = $Estudiante;
     }
     

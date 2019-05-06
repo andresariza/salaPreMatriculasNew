@@ -31,7 +31,7 @@ class PlanEstudio implements \Sala\interfaces\Entidad {
     private $cantidadelectivalibre;
 
     function __construct() {
-        
+        $this->setDb();
     }
 
     public function setDb() {

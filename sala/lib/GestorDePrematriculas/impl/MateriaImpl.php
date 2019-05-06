@@ -8,7 +8,9 @@
 
 namespace Sala\lib\GestorDePrematriculas\impl;
 defined('_EXEC') or die;
-
+use \Sala\lib\Factory;
+use \Sala\entidad\ReferenciaPlanEstudio;
+use \Sala\lib\GestorDePrematriculas\dto\MateriaDTO;
 /**
  * Description of MateriaImpl
  *
@@ -18,7 +20,7 @@ class MateriaImpl {
     private $MateriaDTO; 
     
     public function __construct() {
-        $this->MateriaDTO = new \Sala\lib\GestorDePrematriculas\dto\MateriaDTO();
+        $this->MateriaDTO = new MateriaDTO();
     }
     
     public function getId() {
@@ -103,12 +105,12 @@ class MateriaImpl {
         }else{
             $idMateria = $codigoMateria;
         }
-        $db = \Sala\lib\Factory::createDbo();
+        $db = Factory::createDbo();
         $where = " codigotiporeferenciaplanestudio = 100 "
                 . " AND codigomateria = ".$db->qstr($idMateria)
                 . " AND idplanestudio = ".$db->qstr($idPlanEstudio);
         
-        $preRequisito = \Sala\entidad\ReferenciaPlanEstudio::getList($where);
+        $preRequisito = ReferenciaPlanEstudio::getList($where);
         if(!empty($preRequisito)){
             $this->MateriaDTO->setPreRequisito($preRequisito[0]->getCodigomateriareferenciaplanestudio());
         }

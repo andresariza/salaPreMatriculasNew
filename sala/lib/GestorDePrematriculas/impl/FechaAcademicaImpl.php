@@ -15,13 +15,17 @@ defined('_EXEC') or die;
  * @author Andres
  */
 use \Sala\lib\Factory;
-class FechaAcademicaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IFechaAcademica{
+use \Sala\entidad\FechaAcademica;
+use \Sala\lib\GestorDePrematriculas\interfaces\IFechaAcademica;
+use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
+class FechaAcademicaImpl implements IFechaAcademica{
     private $carrera;
     private $fechaInicioPrematricula;
     private $fechaFinPrematricula;
     private $periodo;
     
-    public function __construct(\Sala\lib\GestorDePrematriculas\dto\CarreraDTO $carrera, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo) {
+    public function __construct(CarreraDTO $carrera, PeriodoDTO $periodo) {
         $this->carrera = $carrera;
         $this->periodo = $periodo;
         //d($this->periodo);
@@ -33,7 +37,7 @@ class FechaAcademicaImpl implements \Sala\lib\GestorDePrematriculas\interfaces\I
         $where = " codigoperiodo = ".$db->qstr($this->periodo->getCodigoPeriodo())." "
                 . " AND codigocarrera = ".$db->qstr($this->carrera->getId())
                 . " AND NOW() BETWEEN fechainicialprematricula AND fechafinalprematricula";
-        $eFechaAcademica = \Sala\entidad\FechaAcademica::getList($where);
+        $eFechaAcademica = FechaAcademica::getList($where);
         if(!empty($eFechaAcademica)){
             $return = true;
         }

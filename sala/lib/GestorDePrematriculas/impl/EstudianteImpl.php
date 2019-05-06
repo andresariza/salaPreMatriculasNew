@@ -1,16 +1,18 @@
 <?php
 namespace Sala\lib\GestorDePrematriculas\impl; 
 defined('_EXEC') or die;
+use \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante;
+use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 /**
  * Description of EstudianteImpl
  *
  * @author Andres
  */
-class EstudianteImpl  implements \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante {
+class EstudianteImpl  implements IEstudiante {
     private $estudianteDTO; 
     
     function __construct($id, $codigo, $estado, $nombres, $apellidos) {
-        $this->estudianteDTO = new \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO($id, $codigo, $estado, 
+        $this->estudianteDTO = new EstudianteDTO($id, $codigo, $estado, 
                 $nombres, $apellidos);
     }
 

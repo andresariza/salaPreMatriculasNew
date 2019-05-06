@@ -165,6 +165,7 @@ class Carrera implements \Sala\interfaces\Entidad{
     private $EsAdministrativa;
     
     public function __construct(){
+        $this->setDb();
     }
     
     public function setDb(){

@@ -8,13 +8,14 @@
 
 namespace Sala\lib\GestorDePrematriculas\interfaces;
 defined('_EXEC') or die;
-
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
+use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 /**
  *
  * @author Andres
  */
 interface IDAOFacade {
-    public function getEstudiante();
-    public function getPlanEstudio(\Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodo);
+    public function getEstudiante($codigo,$idEstudiante);
+    public function getPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO);
     public function getCarrera();
 }

@@ -14,6 +14,14 @@ defined('_EXEC') or die;
  * @author Andres
  */
 use \Sala\lib\Servicios;
+use \Sala\lib\Factory;
+use \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
+use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
+use \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante;
+use \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl;
+use \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl;
+
 class ControllerAcceso {
     
     private $carreraDTO;
@@ -23,8 +31,11 @@ class ControllerAcceso {
     private $pazYSalvo;
     private $mensajeError = array();
     
-    public function __construct(\Sala\lib\GestorDePrematriculas\interfaces\IEstudiante $Estudiante, 
-            \Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO) {
+    public function __construct() {
+        
+        $DAOBridgeImpl = new DAOBridgeImpl();
+        $Estudiante = $DAOBridgeImpl->getEstudiante(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
+        $CarreraDTO = $DAOBridgeImpl->getCarrera();
         $this->setEstudiante($Estudiante);
         $this->setCarreraDTO($CarreraDTO);
         $this->setPeriodoDTO();
@@ -55,7 +66,7 @@ class ControllerAcceso {
     
     public function setPeriodoDTO(){
         $periodoVigente = Servicios::getPeriodoVigente();
-        $this->periodoDTO = new \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO(null,
+        $this->periodoDTO = new PeriodoDTO(null,
                 $periodoVigente->getCodigoperiodo(),
                 $periodoVigente->getCodigoperiodo(),
                 null,
@@ -66,20 +77,20 @@ class ControllerAcceso {
         unset($periodoVigente);
     }
     
-    public function setCarreraDTO(\Sala\lib\GestorDePrematriculas\dto\CarreraDTO $CarreraDTO){
+    public function setCarreraDTO(CarreraDTO $CarreraDTO){
         $this->carreraDTO = $CarreraDTO;
     }
     
-    public function setEstudiante(\Sala\lib\GestorDePrematriculas\interfaces\IEstudiante $Estudiante){
+    public function setEstudiante(IEstudiante $Estudiante){
         $this->Estudiante = $Estudiante;
     }
     
     private function setFechaAcademica(){
-        $this->fechaAcademica = new \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl($this->carreraDTO, $this->periodoDTO);
+        $this->fechaAcademica = new FechaAcademicaImpl($this->carreraDTO, $this->periodoDTO);
     }
     
     private function setPazYSalvo(){
-        $this->pazYSalvo = new \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl($this->Estudiante->getEstudianteDTO());
+        $this->pazYSalvo = new PazYSalvoImpl($this->Estudiante->getEstudianteDTO());
     }
     public function getCarreraDTO() {
         return $this->carreraDTO;

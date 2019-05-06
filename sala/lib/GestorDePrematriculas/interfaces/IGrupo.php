@@ -8,7 +8,8 @@
 
 namespace Sala\lib\GestorDePrematriculas\interfaces;
 defined('_EXEC') or die;
-
+use \Sala\lib\GestorDePrematriculas\dto\MateriaDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 /**
  *
  * @author Andres
@@ -16,5 +17,5 @@ defined('_EXEC') or die;
 interface IGrupo {
     public function seleccionar();
     public function quitar();
-    public static function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO);
+    public static function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO);
 }

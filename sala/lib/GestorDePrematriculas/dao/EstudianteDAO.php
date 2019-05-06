@@ -7,40 +7,38 @@
  */
 
 namespace Sala\lib\GestorDePrematriculas\dao;
+defined('_EXEC') or die;
+use \Sala\entidad\Estudiante;
+use \Sala\entidad\EstudianteGeneral;
+use \Sala\lib\GestorDePrematriculas\interfaces\IEstudianteDAO;
+use \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl;
 
 /**
  * Description of EstudianteDAO
  *
  * @author Andres
  */
-class EstudianteDAO {
+class EstudianteDAO  implements IEstudianteDAO {
     private $EstudianteImpl;
     
-    public function __construct($codigo, $idEstudianteGeneral) {
-        $eEstudiante = new \Sala\entidad\Estudiante();
+    public function __construct() {
+        
+    }
+    
+    public function getEstudiante($codigo, $idEstudianteGeneral){
+        $eEstudiante = new Estudiante();
         $eEstudiante->setCodigoEstudiante($codigo);
-        $eEstudiante->setDb();
         $eEstudiante->getById();
         //d($eEstudiante);
         
-        $eEstudianteGeneral = new \Sala\entidad\EstudianteGeneral();
+        $eEstudianteGeneral = new EstudianteGeneral();
         $eEstudianteGeneral->setIdestudiantegeneral($idEstudianteGeneral);
-        $eEstudianteGeneral->setDb();
         $eEstudianteGeneral->getById();
         //d($eEstudianteGeneral);
         
-        $this->EstudianteImpl = new \Sala\lib\GestorDePrematriculas\impl\EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
+        $this->EstudianteImpl = new EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
                 $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
                 $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral());
-        
-    }
-    
-    public function getEstudiante(){
         return $this->EstudianteImpl;
     }
-    
-    public function getEstudianteDTO(){
-        return $this->EstudianteImpl->getEstudianteDTO();
-    }
-    //put your code here
 }

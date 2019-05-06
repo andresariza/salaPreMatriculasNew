@@ -8,13 +8,21 @@
 
 namespace Sala\lib\GestorDePrematriculas\impl;
 defined('_EXEC') or die;
+use \Sala\lib\Factory;
+use \Sala\entidad\Horario;
+use \Sala\entidad\Grupo;
+use \Sala\lib\GestorDePrematriculas\interfaces\IGrupo;
+use \Sala\lib\GestorDePrematriculas\dto\HorarioDTO;
+use \Sala\lib\GestorDePrematriculas\dto\MateriaDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
+use \Sala\lib\GestorDePrematriculas\dto\GrupoDTO;
 
 /**
  * Description of GrupoImpl
  *
  * @author Andres
  */
-class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
+class GrupoImpl implements IGrupo {
     private $id;
     private $docente;
     private $estado;
@@ -125,19 +133,19 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
     
     public function setHorariosGrupo() {
         $dias = array("Domingo","Lunes","Martes","Mi&eacute;rcoles","Jueves","Viernes","S&aacute;bado");
-        $db = \Sala\lib\Factory::createDbo();
+        $db = Factory::createDbo();
         $where = " idgrupo = ".$db->qstr($this->getId())
                 . " AND codigoestado = 100";
-        $listadoHorarios = \Sala\entidad\Horario::getList($where);
+        $listadoHorarios = Horario::getList($where);
         
         $i=0;
         if(!empty($listadoHorarios)){
             foreach($listadoHorarios as $horario){
-                $this->horariosGrupo[$i] = new \Sala\lib\GestorDePrematriculas\dto\HorarioDTO($horario->getCodigodia(), $dias[$horario->getCodigodia()], $horario->getHorainicial(), $horario->getHorafinal());
+                $this->horariosGrupo[$i] = new HorarioDTO($horario->getCodigodia(), $dias[$horario->getCodigodia()], $horario->getHorainicial(), $horario->getHorafinal());
                 $i++;
             }
         } else {
-            $this->horariosGrupo[$i] = new \Sala\lib\GestorDePrematriculas\dto\HorarioDTO(0, "Sin horario", "00:00", "00:00");
+            $this->horariosGrupo[$i] = new HorarioDTO(0, "Sin horario", "00:00", "00:00");
         }
     }
     
@@ -149,15 +157,15 @@ class GrupoImpl implements \Sala\lib\GestorDePrematriculas\interfaces\IGrupo {
         
     }
 
-    public static function getGruposMateria(\Sala\lib\GestorDePrematriculas\dto\MateriaDTO $materia, \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO $periodoDTO) {
+    public static function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO) {
         $return = array();
-        $db = \Sala\lib\Factory::createDbo();
+        $db = Factory::createDbo();
         $where = " codigomateria = ".$db->qstr($materia->getId())
                 . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
-        $eGrupo = \Sala\entidad\Grupo::getList($where);
+        $eGrupo = Grupo::getList($where);
         if(!empty($eGrupo)){
             foreach($eGrupo as $g){
-                $GrupoDTO = new \Sala\lib\GestorDePrematriculas\dto\GrupoDTO();
+                $GrupoDTO = new GrupoDTO();
                 $GrupoDTO->setId($g->getIdgrupo());
                 $GrupoDTO->setDocente($g->getNumerodocumento());
                 $GrupoDTO->setEstado($g->getCodigoestadogrupo());

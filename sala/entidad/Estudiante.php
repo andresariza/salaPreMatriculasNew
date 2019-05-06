@@ -75,7 +75,9 @@ class Estudiante implements \Sala\interfaces\Entidad{
      */
     private $VinculacionId;
     
-    public function __construct(){}
+    public function __construct(){
+        $this->setDb();
+    }
     
     public function setDb(){
         $this->db = Factory::createDbo();

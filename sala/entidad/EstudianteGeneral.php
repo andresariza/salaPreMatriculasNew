@@ -267,7 +267,9 @@ class EstudianteGeneral implements \Sala\interfaces\Entidad{
      */
     private $EstadoActualizaDato;
     
-    public function __construct(){}
+    public function __construct(){
+        $this->setDb();
+    }
     
     public function setDb(){
         $this->db = Factory::createDbo();
