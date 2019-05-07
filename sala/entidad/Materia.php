@@ -177,6 +177,7 @@ class Materia implements \Sala\interfaces\Entidad{
     private $TipoRotacionId;
     
     public function __construct(){
+        $this->setDb();
     }
     
     public function setDb(){

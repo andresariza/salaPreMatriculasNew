@@ -77,7 +77,7 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
         $this->PlanEstudioDTO->setListadoMaterias($listadoMaterias);
     }
 
-    public function buscarPlanEstudio() {
+    public function buscarPlanEstudio(PeriodoDTO $periodo) {
         $db = Factory::createDbo();
         $where = " codigoestudiante = ".$db->qstr($this->getCodigoEstudiante());
         $ePlanEstudioEstudiante = PlanEstudioEstudiante::getList($where);
@@ -91,9 +91,11 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
             $this->setNombre($ePlanEstudio->getNombreplanestudio());
             $this->setListadoMaterias($this->getMateriasPlanEstudio());
         }
+        $this->validarMateriasDisponibles($periodo);
+        return $this->getPlanEstudioDTO();
     }
 
-    public function validarMateriasDisponibles(PeriodoDTO $periodoDTO) {
+    private function validarMateriasDisponibles(PeriodoDTO $periodoDTO) {
         $i = 0;
         foreach($this->getListadoMaterias() as $m){
             $m->setAprovado($this->validarMateriaAprovada($m->getId()));
@@ -125,11 +127,6 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
                 $aprovado = true;
             }
         }
-        /*/if($idMateria == 15040){
-            d($where);
-            d($eNotaHistorico);
-            d($aprovado);
-        }/**/
         return $aprovado;
     }
     
@@ -140,8 +137,7 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
     private function getMateriasPlanEstudio(){
         $return = array();
         $db = Factory::createDbo();
-        $where = " idplanestudio = ".$db->qstr($this->getId())
-                . " ORDER BY  CONVERT(semestredetalleplanestudio,UNSIGNED INTEGER) ";
+        $where = " idplanestudio = ".$db->qstr($this->getId());
         $listadoMaterias = DetallePlanEstudio::getList($where);
         foreach($listadoMaterias as $m){
             $return[] = $this->getMateria($m);
@@ -152,7 +148,6 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
     
     private function getMateria(DetallePlanEstudio $m){        
         $materia = new Materia();
-        $materia->setDb();
         $materia->setCodigomateria($m->getCodigomateria());
         $materia->getById();
 

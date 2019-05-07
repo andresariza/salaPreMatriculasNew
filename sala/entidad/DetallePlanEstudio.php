@@ -169,9 +169,7 @@ class DetallePlanEstudio implements \Sala\interfaces\Entidad {
         if (!empty($where)) {
             $query .= " AND " . $where;
         }
-        if (!empty($orderBy)) {
-            $query .= " ORDER BY " . $orderBy;
-        }
+        $query .= " ORDER BY  CONVERT(semestredetalleplanestudio,UNSIGNED INTEGER) " ;
         //d($query);
         //d($db);
         $datos = $db->GetAll($query);

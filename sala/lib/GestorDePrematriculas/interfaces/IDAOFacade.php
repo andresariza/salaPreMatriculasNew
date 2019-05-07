@@ -15,7 +15,7 @@ use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
  * @author Andres
  */
 interface IDAOFacade {
-    public function getEstudiante($codigo,$idEstudiante);
-    public function getPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO);
+    public function consultarEstudiante($codigo,$idEstudiante);
+    public function buscarPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO);
     public function getCarrera();
 }

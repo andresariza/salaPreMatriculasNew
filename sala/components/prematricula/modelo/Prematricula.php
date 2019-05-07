@@ -28,14 +28,12 @@ class Prematricula implements \Sala\interfaces\Model {
         
         $ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso();
         
-        $DAOBridgeImpl = new \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl();
-        
-        $estudianteImpl = $DAOBridgeImpl->getEstudiante(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
+        $estudianteImpl = $ControllerAcceso->getEstudiante();
         
         $return['Estudiante'] = $estudianteImpl->getEstudianteDTO();
         $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
-            $return['PlanEstudio'] = $DAOBridgeImpl->getPlanEstudio($ControllerAcceso->getPeriodoDTO(), $estudianteImpl->getEstudianteDTO());
+            $return['PlanEstudio'] = $ControllerAcceso->getPlanEstudio($estudianteImpl->getEstudianteDTO());
         } else {
             $return['mensajeError'] = $ControllerAcceso->getMensajeError();
         }

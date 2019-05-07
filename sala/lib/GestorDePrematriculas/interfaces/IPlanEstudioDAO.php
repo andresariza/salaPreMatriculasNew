@@ -14,6 +14,5 @@ use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
  * @author Andres
  */
 interface IPlanEstudioDAO {
-    public function buscarPlanEstudio();
-    public function validarMateriasDisponibles(PeriodoDTO $periodoDTO);
+    public function buscarPlanEstudio(PeriodoDTO $periodo);
 }

@@ -14,5 +14,5 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IEstudianteDAO {
-    public function getEstudiante($codigo,$idEstudiante);
+    public function consultarEstudiante($codigo,$idEstudiante);
 }

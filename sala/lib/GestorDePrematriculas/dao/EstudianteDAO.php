@@ -25,7 +25,7 @@ class EstudianteDAO  implements IEstudianteDAO {
         
     }
     
-    public function getEstudiante($codigo, $idEstudianteGeneral){
+    public function consultarEstudiante($codigo, $idEstudianteGeneral){
         $eEstudiante = new Estudiante();
         $eEstudiante->setCodigoEstudiante($codigo);
         $eEstudiante->getById();

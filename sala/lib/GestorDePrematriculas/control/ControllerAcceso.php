@@ -15,29 +15,31 @@ defined('_EXEC') or die;
  */
 use \Sala\lib\Servicios;
 use \Sala\lib\Factory;
-use \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl;
 use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
+use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 use \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante;
+use \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl;
 use \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl;
 use \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl;
 
 class ControllerAcceso {
     
-    private $carreraDTO;
+    private $CarreraDTO;
     private $periodoDTO;
     private $Estudiante;
     private $fechaAcademica;
     private $pazYSalvo;
+    private $DAOBridgeImpl;
     private $mensajeError = array();
     
     public function __construct() {
         
-        $DAOBridgeImpl = new DAOBridgeImpl();
-        $Estudiante = $DAOBridgeImpl->getEstudiante(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
-        $CarreraDTO = $DAOBridgeImpl->getCarrera();
-        $this->setEstudiante($Estudiante);
-        $this->setCarreraDTO($CarreraDTO);
+        $this->DAOBridgeImpl = new DAOBridgeImpl();
+        $this->Estudiante = $this->DAOBridgeImpl->consultarEstudiante(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
+        $this->CarreraDTO = $this->DAOBridgeImpl->getCarrera();
+        $this->setEstudiante($this->Estudiante);
+        $this->setCarreraDTO($this->CarreraDTO);
         $this->setPeriodoDTO();
         
         
@@ -62,6 +64,10 @@ class ControllerAcceso {
         }
         
         return $permiso;
+    }
+    
+    public function buscarPlanEstudio(EstudianteDTO $EstudianteDTO){
+        return $this->DAOBridgeImpl->buscarPlanEstudio($this->periodoDTO, $EstudianteDTO);
     }
     
     public function setPeriodoDTO(){
