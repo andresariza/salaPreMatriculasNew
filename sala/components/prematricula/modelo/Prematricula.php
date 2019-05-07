@@ -33,7 +33,7 @@ class Prematricula implements \Sala\interfaces\Model {
         $return['Estudiante'] = $estudianteImpl->getEstudianteDTO();
         $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
-            $return['PlanEstudio'] = $ControllerAcceso->getPlanEstudio($estudianteImpl->getEstudianteDTO());
+            $return['PlanEstudio'] = $ControllerAcceso->buscarPlanEstudio($estudianteImpl->getEstudianteDTO());
         } else {
             $return['mensajeError'] = $ControllerAcceso->getMensajeError();
         }
