@@ -94,8 +94,26 @@ function removerMateria(materiaId) {
 }
 function agregarGrupo(grupo) {
     gruposSeleccionadas.push(grupo.grupoId);
+    reservarCupo(grupo.grupoId);
     grupo.horarios.forEach(function (item, index) {
         horariosSeleccionados[parseInt(item.dia)].push([item.ini, item.fin, item.iniReal, item.finReal, item.grupo, item.materia]);
+    });
+}
+function reservarCupo(grupoId){
+    $.ajax({
+        url: HTTP_SITE+"/index.php",
+        type: "GET",
+        dataType: "json",
+        data: {
+            tmpl : 'json',
+            option : "prematricula",
+            action : "reservarCupo",
+            grupoId : grupoId
+        },
+        success: function( data ){},
+        error: function (xhr, ajaxOptions, thrownError) {}
+    }).always(function() {
+        hideLoader();
     });
 }
 function removerGrupo(grupo) {
