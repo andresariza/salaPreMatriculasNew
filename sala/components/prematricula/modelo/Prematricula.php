@@ -10,8 +10,10 @@ defined('_EXEC') or die;
  * @package model
  */
 use \Sala\lib\Factory;
+use \Sala\lib\GestorDePrematriculas\control\ControllerAcceso;
+use \Sala\interfaces\Model;
 
-class Prematricula implements \Sala\interfaces\Model {
+class Prematricula implements Model {
 
     /**
      * @type adodb Object
@@ -24,9 +26,9 @@ class Prematricula implements \Sala\interfaces\Model {
     }
 
     public function getVariables($variables) {
-        $return = array();
+        $return = array("variables" => $variables);
         
-        $ControllerAcceso = new \Sala\lib\GestorDePrematriculas\control\ControllerAcceso();
+        $ControllerAcceso = new ControllerAcceso();
         
         $estudianteImpl = $ControllerAcceso->getEstudiante();
         

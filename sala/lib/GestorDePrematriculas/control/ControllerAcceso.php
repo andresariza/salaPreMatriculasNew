@@ -34,14 +34,12 @@ class ControllerAcceso {
     private $mensajeError = array();
     
     public function __construct() {
-        
         $this->DAOBridgeImpl = new DAOBridgeImpl();
         $this->Estudiante = $this->DAOBridgeImpl->consultarEstudiante(Factory::getSessionVar('codigo'), Factory::getSessionVar("sesion_idestudiantegeneral"));
         $this->CarreraDTO = $this->DAOBridgeImpl->getCarrera();
         $this->setEstudiante($this->Estudiante);
         $this->setCarreraDTO($this->CarreraDTO);
         $this->setPeriodoDTO();
-        
         
         $this->setFechaAcademica();
         $this->setPazYSalvo();

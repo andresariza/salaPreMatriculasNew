@@ -77,12 +77,14 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                                                     $arrayHorario[$i]["finReal"] = $horario->getHorafinal();
                                                     $arrayHorario[$i]["grupo"] = addslashes($grupo->getNombre());
                                                     $arrayHorario[$i]["materia"] = addslashes($materia->getNombreLargo());
+                                                    $arrayHorario[$i]["creditos"] = addslashes($materia->getNumeroCreditos());
                                                     $i++;
                                                 }
                                                 ?>
                                                 <div class="list-group-item arrastrable" id="<?php echo $grupo->getId(); ?>" 
                                                      data-materiaid="<?php echo $materia->getId(); ?>"
-                                                     data-grupo='<?php echo json_encode(array("grupoId"=>$grupo->getId(),"horarios"=>$arrayHorario));?>' 
+                                                     data-creditos="<?php echo $materia->getNumeroCreditos(); ?>"
+                                                     data-grupo='<?php echo json_encode(array("grupoId"=>$grupo->getId(),"creditos"=>$materia->getNumeroCreditos(),"horarios"=>$arrayHorario));?>' 
                                                      >
                                                     <p class="list-group-item-text">
                                                         <span class="nombreMateria">
@@ -150,7 +152,17 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                         <div class="panel-control">
                             <button class="btn btn-success btn-labeled fa fa-eye previsualizarFinal" data-target="#preview-lg-modal" data-toggle="modal">Ver Horarios Seleccionados</button>
                         </div>
-                        <h3 class="panel-title">Grupos Seleccionados</h3>
+                        <h3 class="panel-title">
+                            <span class="text-normal">
+                                Grupos Seleccionados
+                            </span>
+                        </h3>
+                    </div>
+                    <div class="row">
+                        <span class="text-xs text-light">
+                            <strong>Creditos seleccionados:</strong> 
+                        </span>
+                        <span class="text-xs text-light" id="creditosSeleccionados">0</span>
                     </div>
                     <div class="panel-body bg-gray-light sortable Destino" >
                         

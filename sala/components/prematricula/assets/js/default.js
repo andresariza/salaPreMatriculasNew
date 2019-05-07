@@ -1,3 +1,4 @@
+var creditosSeleccionados = 0;
 var materiasSeleccionadas = new Array();
 var gruposSeleccionadas = new Array();
 var horariosSeleccionados = [null, new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
@@ -38,6 +39,7 @@ function recibePanelGrupoSeleccionado(obj){
     var grupo = $(obj).data("grupo");
     agregarMateria($(obj).data("materiaid"));
     agregarGrupo(grupo);
+    agregarCreditos($(obj).data("creditos"));
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable .arrastrable .mensajeMateriaSeleccionada").html('<div class=\"alert alert-warning fade in\"><button class=\"close\" data-dismiss=\"alert\"><span>×</span></button><strong><i class=\"fa fa-info-circle\"></i> </strong> Esta materia ya fue seleccionada. </div>');
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable").sortable('disable');
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable div.arrastrable").addClass("bg-trans-dark text-muted unsortable");
@@ -50,6 +52,7 @@ function remuevePanelGrupoSeleccionado(obj){
         $("div#collapse" + $(obj).data("materiaid") + " div.sortable .arrastrable .mensajeMateriaSeleccionada").html('');
         removerMateria($(obj).data("materiaid"));
         removerGrupo(grupo);
+        removerCreditos($(obj).data("creditos"));
         $("div#collapse" + $(obj).data("materiaid") + " div.sortable div.arrastrable").removeClass("bg-trans-dark text-muted  unsortable");
         $("div#collapse" + $(obj).data("materiaid") + " div.sortable").sortable('enable');
         $(obj).unbind('mouseenter');
@@ -59,6 +62,14 @@ function remuevePanelGrupoSeleccionado(obj){
     }else{
         llevarGrupoAMateriaPadre(obj);
     }
+}
+function agregarCreditos(creditos){
+    creditosSeleccionados += creditos;
+    $("#creditosSeleccionados").html(creditosSeleccionados);
+}
+function removerCreditos(creditos){
+    creditosSeleccionados -= creditos;
+    $("#creditosSeleccionados").html(creditosSeleccionados);
 }
 function llevarGrupoAMateriaPadre(obj){
     var id = $(obj).attr("id");
