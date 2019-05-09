@@ -218,6 +218,7 @@ class Grupo implements \Sala\interfaces\Entidad{
 
     public function getById() {
         if(!empty($this->idgrupo)){
+            $this->setDb();
             $query = "SELECT * FROM grupo "
                     ." WHERE idgrupo = ".$this->db->qstr($this->idgrupo);
             

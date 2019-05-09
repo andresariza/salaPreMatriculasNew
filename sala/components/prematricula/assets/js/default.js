@@ -13,12 +13,18 @@ $(document).ready(function () {
     iniciarSortable();
 });
 function extenderPanelDestino(obj) {
-    var newheight = (121 * $(obj).parent().find(".collapse .sortable .arrastrable").length) + 50;
+    //$(obj).focus();
+    var newheight = (145 * $(obj).parent().find(".collapse .sortable .arrastrable").length) + 50;
     if ($(obj).find("a").attr("aria-expanded") === "false") {
         $(".Destino").css("min-height", height + newheight);
     } else {
         $(".Destino").css("min-height", height);
     }
+    setTimeout(function(){
+        $('html,body').animate({
+            scrollTop: $(obj).offset().top
+        }, 1000);
+    }, 500);
 }
 function iniciarSortable() {
     $('div.sortable').sortable({
@@ -99,6 +105,17 @@ function agregarGrupo(grupo) {
         horariosSeleccionados[parseInt(item.dia)].push([item.ini, item.fin, item.iniReal, item.finReal, item.grupo, item.materia]);
     });
 }
+function removerGrupo(grupo) {
+    gruposSeleccionadas = gruposSeleccionadas.filter(function (item) {
+        return item !== grupo.grupoId;
+    });
+    removerCupo(grupo.grupoId);
+    grupo.horarios.forEach(function (item, index) {
+        horariosSeleccionados[parseInt(item.dia)] = horariosSeleccionados[parseInt(item.dia)].filter(function (item2) {
+            return (item2[0] !== item.ini && item2[1] !== item.fin);
+        });
+    });
+}
 function reservarCupo(grupoId){
     $.ajax({
         url: HTTP_SITE+"/index.php",
@@ -116,14 +133,22 @@ function reservarCupo(grupoId){
         hideLoader();
     });
 }
-function removerGrupo(grupo) {
-    gruposSeleccionadas = gruposSeleccionadas.filter(function (item) {
-        return item !== grupo.grupoId;
-    });
-    grupo.horarios.forEach(function (item, index) {
-        horariosSeleccionados[parseInt(item.dia)] = horariosSeleccionados[parseInt(item.dia)].filter(function (item2) {
-            return (item2[0] !== item.ini && item2[1] !== item.fin);
-        });
+function removerCupo(grupoId){
+    console.log("remover "+grupoId);
+    $.ajax({
+        url: HTTP_SITE+"/index.php",
+        type: "GET",
+        dataType: "json",
+        data: {
+            tmpl : 'json',
+            option : "prematricula",
+            action : "removerCupo",
+            grupoId : grupoId
+        },
+        success: function( data ){},
+        error: function (xhr, ajaxOptions, thrownError) {}
+    }).always(function() {
+        hideLoader();
     });
 }
 function prepareToReactiveSortable() {
@@ -194,5 +219,26 @@ function prepareToSelect(){
     $(".seleccionarGrupo button").unbind('click');
     $(".seleccionarGrupo button").click(function(){
         llevarGrupoADestino($(this).parent().parent().parent());
+    });
+}
+function continuarReservas(reservas){
+    
+    var confirma = '<div class="text-2x alert alert-success fade in"><strong><i class="fa fa-info-circle" aria-hidden="true"></i></strong> En el momento cuenta con reservas de cupo, desea continuar con ese proceso?<br>Recuerde que su reserva de cupo tiene una duración de 2 horas antes de ser liberado, si no desea continuar con el proceso perderá la reserva de cupo.</div>';
+    //bootbox.setLocale("es");
+    bootbox.setDefaults({
+        locale: "es"
+    });
+    bootbox.confirm(confirma, function(result) {
+        if (result) {
+            showLoader(); 
+            reservas.forEach(function(entry) {
+                llevarGrupoADestino($("#"+entry));
+            });
+            hideLoader();
+        }else{
+            reservas.forEach(function(entry) {
+                llevarGrupoAMateriaPadre($("#"+entry));
+            });
+        }
     });
 }

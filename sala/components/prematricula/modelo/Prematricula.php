@@ -36,6 +36,7 @@ class Prematricula implements Model {
         $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
             $return['PlanEstudio'] = $ControllerAcceso->buscarPlanEstudio($estudianteImpl->getEstudianteDTO());
+            $return['reservas'] = $ControllerAcceso->consultarReservas($estudianteImpl->getEstudianteDTO());
         } else {
             $return['mensajeError'] = $ControllerAcceso->getMensajeError();
         }

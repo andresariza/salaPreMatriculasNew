@@ -48,7 +48,6 @@ class ReservaCupo  implements Entidad{
     private $fechaReserva;
     
     public function __construct(){
-        $this->setDb();
     }
     
     public function setDb(){
@@ -88,6 +87,7 @@ class ReservaCupo  implements Entidad{
     }
     
     public function getById() {
+        $this->setDb();
         if (!empty($this->id)) {
             $query = "SELECT * FROM ReservaCupo "
                     . " WHERE id = " . $this->db->qstr($this->id);

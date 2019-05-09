@@ -119,4 +119,16 @@ class ControllerAcceso {
     public function getMensajeError() {
         return $this->mensajeError;
     }
+    
+    public function borrarReserva(EstudianteDTO $estudianteDTO, $grupoid) {
+        return $this->DAOBridgeImpl->borrarReserva($estudianteDTO, $grupoid);
+    }
+
+    public function consultarReservas(EstudianteDTO $estudianteDTO) {
+        return $this->DAOBridgeImpl->consultarReservas($estudianteDTO);
+    }
+
+    public function reservarCupo(EstudianteDTO $estudianteDTO,$grupoid) {
+        return $this->DAOBridgeImpl->reservarCupo($estudianteDTO, $grupoid);
+    }
 }

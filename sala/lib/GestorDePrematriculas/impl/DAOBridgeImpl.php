@@ -27,7 +27,7 @@ class DAOBridgeImpl extends DAOBridge {
     public function buscarPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO) {
         $this->getPlanEstudioDAO()->setCarreraDto($this->getCarrera());
         $this->getPlanEstudioDAO()->setCodigoEstudiante($EstudianteDTO->getCodigo());
-        return$this->getPlanEstudioDAO()->buscarPlanEstudio($periodo);
+        return $this->getPlanEstudioDAO()->buscarPlanEstudio($periodo);
     }
 
     public function getCarrera() {
@@ -37,6 +37,18 @@ class DAOBridgeImpl extends DAOBridge {
 
     public function consultarEstudiante($codigo,$idEstudiante){
         return $this->getEstudianteDAO()->consultarEstudiante($codigo,$idEstudiante);
+    }
+
+    public function borrarReserva(EstudianteDTO $estudianteDTO, $grupoid) {
+        return $this->getReservaCupoDAO()->borrarReserva($estudianteDTO, $grupoid);
+    }
+
+    public function consultarReservas(EstudianteDTO $estudianteDTO) {
+        return $this->getReservaCupoDAO()->consultarReservas($estudianteDTO);
+    }
+
+    public function reservarCupo(EstudianteDTO $estudianteDTO, $grupoid) {
+        return $this->getReservaCupoDAO()->reservarCupo($estudianteDTO, $grupoid);
     }
 
 }

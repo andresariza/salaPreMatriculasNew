@@ -9,6 +9,7 @@
 namespace Sala\components\prematricula\control;
 defined('_EXEC') or die;
 use \Sala\lib\Factory;
+use \Sala\lib\GestorDePrematriculas\control\ControllerAcceso;   
 
 /**
  * Description of ControlPrematricula
@@ -34,6 +35,24 @@ class ControlPrematricula {
     
     public function setVariables($variables){
         $this->variables = $variables; 
+    }
+    
+    public function reservarCupo(){
+        $ControllerAcceso = new ControllerAcceso();
+        
+        $estudianteDTO = $ControllerAcceso->getEstudiante()->getEstudianteDTO();
+        
+        $result= $ControllerAcceso->reservarCupo($estudianteDTO, $this->variables->grupoId);
+        
+        echo json_encode(array("s"=>$result));
+    }
+    
+    public function removerCupo(){
+        $ControllerAcceso = new ControllerAcceso();
+        $estudianteDTO = $ControllerAcceso->getEstudiante()->getEstudianteDTO();
+        
+        $result = $ControllerAcceso->borrarReserva($estudianteDTO, $this->variables->grupoId);
+        echo json_encode(array("s"=>$result));
     }
     
     public static function getListadoMateriasDisponibles($listadoMaterias){

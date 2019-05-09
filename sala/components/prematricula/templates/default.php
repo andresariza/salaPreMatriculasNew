@@ -1,6 +1,5 @@
 <?php
 defined('_EXEC') or die;
-
 echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/assets/js/jquery-ui.min.js");
 $listadoMateriasDisponibles = \Sala\components\prematricula\control\ControlPrematricula::getListadoMateriasDisponibles($PlanEstudio->getListadoMaterias());
 
@@ -10,6 +9,18 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
 ?>
 <script type="text/javascript">
     var height = <?php echo count($listadoMateriasDisponibles)*45;?>;
+    <?php
+    if(!empty($reservas)){
+        $idsReservas = array();
+        foreach($reservas as $r){
+            $idsReservas[] = $r->getId();
+        }
+    ?>
+    var reservas = [<?php echo implode(",", $idsReservas)?>];
+    continuarReservas(reservas);
+    <?php
+    }
+    ?>
 </script>
 <div class="panel">
     <?php

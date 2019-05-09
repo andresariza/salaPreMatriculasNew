@@ -49,12 +49,12 @@ class ReservaCupoDAO implements EntidadDAO {
             $where[] = " id = ".$this->db->qstr($id);
         }
       
-        $query .= " ReservaCupo SET   idEstudiante = ".$this->db->qstr($this->reservaCupo->getIdEstudiante()).", nombreperiodo = ".$this->db->qstr($this->reservaCupo->getIdGrupo()).", codigoestadoperiodo = ".$this->db->qstr($this->reservaCupo->getFechaReserva()).""; 
+        $query .= " ReservaCupo SET   idEstudiante = ".$this->db->qstr($this->reservaCupo->getIdEstudiante()).", idGrupo = ".$this->db->qstr($this->reservaCupo->getIdGrupo()).", fechaReserva = ".$this->db->qstr($this->reservaCupo->getFechaReserva()).""; 
        
         if(!empty($where)){
             $query .= " WHERE ".implode(" AND ",$where);
         }
-        
+        //d($query);
         $rs = $this->db->Execute($query);
         if(empty($id)){
             $this->reservaCupo->setId($this->db->insert_Id());
@@ -62,6 +62,20 @@ class ReservaCupoDAO implements EntidadDAO {
         
         $this->logAuditoria($this->reservaCupo, $query);
         return $rs;
+    }
+    
+    public function delete(){
+        $query = ""; $where = array();
+        $id = $this->reservaCupo->getId();
+        
+        if(!empty($id)){
+            $query .= "DELETE FROM ReservaCupo WHERE id = ".$this->db->qstr($id);
+            
+            $rs = $this->db->Execute($query);
+            
+            $this->logAuditoria($this->reservaCupo, $query);
+            return $rs;
+        }
     }
     
     public function logAuditoria($e, $query) {
