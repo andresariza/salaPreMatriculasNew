@@ -207,26 +207,57 @@ function validarHorarioDisponible(horariospreviamenteseleccionados, horarios) {
 }
 function validarCruceDeHorarios() {
     $("div.list-group.sortable div.arrastrable").unbind('mouseenter');
-    $("div.list-group.sortable div.arrastrable").mouseenter(function () {
+    $("div.list-group.sortable div.arrastrable").mouseenter(function () { 
         var grupo = $(this).data("grupo");
         puedeAgregar = validarHorarioDisponible(horariosSeleccionados, grupo.horarios);
         if (!puedeAgregar) {
-            desactivarItem(this);
+            desactivarItem(this,"Horarios cruzados, este grupo no se puede agregar.");
         } else {
             if (!$(this).parent().hasClass("ui-sortable-disabled")) {
                 activarItem(this);
+                validarCuposDisponibles(this);
             }
         }
     });
 }
 function validarCuposDisponibles(obj){
-    
+    var puedeAgregar = true;
+    $.ajax({
+        url: HTTP_SITE+"/index.php",
+        type: "GET",
+        dataType: "json",
+        data: {
+            tmpl : 'json',
+            option : "prematricula",
+            action : "validarCuposDisponibles",
+            grupoId : $(obj).attr("id")
+        },
+        success: function( data ){ 
+            var cupo =  parseInt(data.cuposDisponibles);
+            
+            if(cupo<=0){
+                puedeAgregar = false;
+                cupo = 0;
+            }else{
+                puedeAgregar = true ;
+            }
+            
+            if(puedeAgregar){
+                activarItem(obj);
+            }else{
+                desactivarItem(obj,"Este grupo no tiene cupos disponibles.");
+            }
+            $(obj).data("cupodisponible", cupo);
+            $("#cuposDisponibles_"+$(obj).attr("id")).html(cupo);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {}
+    });
 }
-function desactivarItem(obj) {
+function desactivarItem(obj, mensaje) {
     $(obj).addClass("bg-trans-dark");
     $(obj).addClass("ui-state-disabled");
     $(obj).addClass("unsortable");
-    $(obj).find("div.mensajeError").html("<div class=\"alert alert-warning fade in\"><button class=\"close\" data-dismiss=\"alert\"><span>×</span></button><strong><i class=\"fa fa-info-circle\"></i> </strong> Horarios cruzados, este grupo no se puede agregar. </div>");
+    $(obj).find("div.mensajeError").html("<div class=\"alert alert-warning fade in\"><button class=\"close\" data-dismiss=\"alert\"><span>×</span></button><strong><i class=\"fa fa-info-circle\"></i> </strong> "+mensaje+" </div>");
 }
 function activarItem(obj) {
     $(obj).removeClass("bg-trans-dark");

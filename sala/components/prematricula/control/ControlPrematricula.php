@@ -10,6 +10,7 @@ namespace Sala\components\prematricula\control;
 defined('_EXEC') or die;
 use \Sala\lib\Factory;
 use \Sala\lib\GestorDePrematriculas\control\Controller;   
+use \Sala\entidad\Grupo;
 
 /**
  * Description of ControlPrematricula
@@ -29,8 +30,12 @@ class ControlPrematricula {
      */
     private $variables;
     
+    private $Controller;
+    
     public function __construct() {
         $this->db = Factory::createDbo();
+        
+        $this->Controller = new Controller();
     }
     
     public function setVariables($variables){
@@ -38,21 +43,28 @@ class ControlPrematricula {
     }
     
     public function reservarCupo(){
-        $Controller = new Controller();
+        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
         
-        $estudianteDTO = $Controller->getEstudiante()->getEstudianteDTO();
-        
-        $result= $Controller->reservarCupo($estudianteDTO, $this->variables->grupoId);
+        $result= $this->Controller->reservarCupo($estudianteDTO, $this->variables->grupoId);
         
         echo json_encode(array("s"=>$result));
     }
     
     public function removerCupo(){
-        $Controller = new Controller();
-        $estudianteDTO = $Controller->getEstudiante()->getEstudianteDTO();
+        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
         
-        $result = $Controller->borrarReserva($estudianteDTO, $this->variables->grupoId);
+        $result = $this->Controller->borrarReserva($estudianteDTO, $this->variables->grupoId);
         echo json_encode(array("s"=>$result));
+    }
+    
+    public function validarCuposDisponibles(){
+        $result = $this->Controller->consultarReservasGrupo($this->variables->grupoId);
+        
+        $entGrupo = new Grupo();
+        $entGrupo->setIdgrupo($this->variables->grupoId);
+        $entGrupo->getById();
+        
+        echo json_encode(array( "cuposDisponibles" => ($entGrupo->getMaximogrupo() - $entGrupo->getMatriculadosgrupo()) - count($result)));
     }
     
     public static function getListadoMateriasDisponibles($listadoMaterias){

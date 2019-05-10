@@ -106,7 +106,7 @@ class ReservaCupo  implements Entidad{
     public static function getList($where = null, $orderBy = null) {
         $return = array();
         $db = Factory::createDbo();
-        $query = "SELECT * FROM ReservaCupo "
+        $query = "SELECT * FROM reservacupo "
                 . " WHERE 1 ";
         if (!empty($where)) {
             $query .= " AND " . $where;
@@ -114,7 +114,6 @@ class ReservaCupo  implements Entidad{
         if (!empty($orderBy)) {
             $query .= " ORDER BY " . $orderBy;
         }
-        //d($query);
         $datos = $db->Execute($query);
 
         while ($d = $datos->FetchRow()) {

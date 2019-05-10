@@ -76,11 +76,11 @@ $pos = strpos($Configuration->getEntorno(), "local");
 if($Configuration->getEntorno()=="local"||$Configuration->getEntorno()=="pruebas"||$pos!==false){
     @error_reporting(1023); // NOT FOR PRODUCTION SERVERS!
     @ini_set('display_errors', '1'); // NOT FOR PRODUCTION SERVERS!
+}
     /**
      * Se incluye la libreria Kint para hacer debug controlado de variables y objetos
      */
     require_once (PATH_ROOT.'/kint/Kint.class.php');
-}
 
 /**
  * Se incluye la libreria Factory para tener acceso a todas sus metodos estaticos

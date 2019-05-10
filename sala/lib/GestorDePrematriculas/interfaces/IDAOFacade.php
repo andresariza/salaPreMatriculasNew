@@ -20,5 +20,6 @@ interface IDAOFacade {
     public function getCarrera();
     public function reservarCupo(EstudianteDTO $estudianteDTO, $grupoid);
     public function borrarReserva(EstudianteDTO $estudianteDTO, $grupoid);
-    public function consultarReservas(EstudianteDTO $estudianteDTO);
+    public function consultarReservasEstudiante(EstudianteDTO $estudianteDTO);
+    public function consultarReservasGrupo($idGrupo);
 }

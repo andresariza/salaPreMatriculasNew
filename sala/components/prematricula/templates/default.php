@@ -44,9 +44,13 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
         ?>
         <div class="panel-body">
             <div class="row">
-                <div class="alert alert-info  fa-2x fade in">
+                <div class="alert alert-info fade in ">
                     <button class="close" data-dismiss="alert"><span>×</span></button>
-                    <strong><i class="fa fa-info-circle"></i></strong> Para agregar un grupo, haga clic sobre nombre de la materia y arrastre el grupo deseado al panel de grupos seleccionados, ó haga clic en el boton selecionar.
+                    <strong style="display: inline-block; vertical-align: middle; margin-right: 3px;"><i class="fa fa-3x fa-info-circle"></i></strong> 
+                    <span style="display: inline-block;width: 95%;vertical-align: middle;">
+                        Para agregar un grupo, haga clic sobre nombre de la materia y arrastre el grupo deseado al panel de grupos seleccionados, ó haga clic en el boton selecionar.<br>
+                        Al seleccionar un grupo usted tendrá reservado un cupo en este por un maximo de 2 horas, si en trascurso de ese tiempo no termina el proceso de prematricula el cupo sera liberado y usted perderá su reserva.
+                    </span>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="panel-heading">
@@ -96,6 +100,7 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                                                 ?>
                                                 <div class="list-group-item arrastrable" id="<?php echo $grupo->getId(); ?>" 
                                                      data-materiaid="<?php echo $materia->getId(); ?>"
+                                                     data-cupodisponible="<?php echo $grupo->getCupoMaximo() - $grupo->getCupoOcupado(); ?>"
                                                      data-creditos="<?php echo $materia->getNumeroCreditos(); ?>"
                                                      data-grupo='<?php echo json_encode(array("grupoId"=>$grupo->getId(),"creditos"=>$materia->getNumeroCreditos(),"horarios"=>$arrayHorario));?>' 
                                                      >
@@ -116,9 +121,13 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                                                             <strong>Creditos:</strong> 
                                                             <?php echo $materia->getNumeroCreditos(); ?></br> 
                                                         </span>
+                                                        <span class="cupoMaximo">
+                                                            <strong>Cupo maximo:</strong> 
+                                                            <?php echo $grupo->getCupoMaximo(); ?></br> 
+                                                        </span>
                                                         <span class="cuposDisponibles">
                                                             <strong>Cupo disponible:</strong> 
-                                                            <?php echo $grupo->getCupoMaximo(); ?></br> 
+                                                            <span id="cuposDisponibles_<?php echo $grupo->getId(); ?>"><?php echo $grupo->getCupoMaximo() - $grupo->getCupoOcupado(); ?></span></br> 
                                                         </span>
                                                         <span class="horarios">
                                                             <strong>Horarios</strong></br>

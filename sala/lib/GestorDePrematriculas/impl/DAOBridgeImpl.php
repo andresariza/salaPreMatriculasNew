@@ -43,8 +43,12 @@ class DAOBridgeImpl extends DAOBridge {
         return $this->getReservaCupoDAO()->borrarReserva($estudianteDTO, $grupoid);
     }
 
-    public function consultarReservas(EstudianteDTO $estudianteDTO) {
-        return $this->getReservaCupoDAO()->consultarReservas($estudianteDTO);
+    public function consultarReservasEstudiante(EstudianteDTO $estudianteDTO) {
+        return $this->getReservaCupoDAO()->consultarReservasEstudiante($estudianteDTO);
+    }
+    
+    public function consultarReservasGrupo($idGrupo){
+        return $this->getReservaCupoDAO()->consultarReservasGrupo($idGrupo);
     }
 
     public function reservarCupo(EstudianteDTO $estudianteDTO, $grupoid) {

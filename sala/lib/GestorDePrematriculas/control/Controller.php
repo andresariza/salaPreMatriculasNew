@@ -126,8 +126,12 @@ class Controller {
         return $this->DAOBridgeImpl->borrarReserva($estudianteDTO, $grupoid);
     }
 
-    public function consultarReservas(EstudianteDTO $estudianteDTO) {
-        return $this->DAOBridgeImpl->consultarReservas($estudianteDTO);
+    public function consultarReservasEstudiante(EstudianteDTO $estudianteDTO) {
+        return $this->DAOBridgeImpl->consultarReservasEstudiante($estudianteDTO);
+    }
+    
+    public function consultarReservasGrupo($idGrupo) {
+        return $this->DAOBridgeImpl->consultarReservasGrupo($idGrupo);
     }
 
     public function reservarCupo(EstudianteDTO $estudianteDTO,$grupoid) {

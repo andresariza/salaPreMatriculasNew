@@ -18,13 +18,10 @@ class GrupoDTO {
     private $id;
     private $docente;
     private $estado;
-    private $materia;
     private $nombre;
     private $codigoGrupo;
     private $cupoMaximo;
     private $cupoOcupado;
-    private $cupoElectiva;
-    private $matriculadosElectiva;
     private $periodoDTO;
     private $horariosGrupo = array();
     
@@ -42,10 +39,6 @@ class GrupoDTO {
 
     public function getEstado() {
         return $this->estado;
-    }
-
-    public function getMateria() {
-        return $this->materia;
     }
 
     public function getNombre() {
@@ -67,14 +60,7 @@ class GrupoDTO {
     public function getCupoOcupado() {
         return $this->cupoOcupado;
     }
-
-    public function getCupoElectiva() {
-        return $this->cupoElectiva;
-    }
-
-    public function getMatriculadosElectiva() {
-        return $this->matriculadosElectiva;
-    }
+    
     public function getHorariosGrupo() {
         return $this->horariosGrupo;
     }
@@ -89,10 +75,6 @@ class GrupoDTO {
 
     public function setEstado($estado) {
         $this->estado = $estado;
-    }
-
-    public function setMateria($materia) {
-        $this->materia = $materia;
     }
 
     public function setNombre($nombre) {
@@ -113,14 +95,6 @@ class GrupoDTO {
 
     public function setCupoOcupado($cupoOcupado) {
         $this->cupoOcupado = $cupoOcupado;
-    }
-
-    public function setCupoElectiva($cupoElectiva) {
-        $this->cupoElectiva = $cupoElectiva;
-    }
-
-    public function setMatriculadosElectiva($matriculadosElectiva) {
-        $this->matriculadosElectiva = $matriculadosElectiva;
     }
     
     public function setHorariosGrupo() {

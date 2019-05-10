@@ -17,5 +17,6 @@ use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 interface IReservarCupoDAO {
     public function reservarCupo(EstudianteDTO $estudianteDTO, $grupoid);
     public function borrarReserva(EstudianteDTO $estudianteDTO, $grupoid);
-    public function consultarReservas(EstudianteDTO $estudianteDTO);
+    public function consultarReservasEstudiante(EstudianteDTO $estudianteDTO);
+    public function consultarReservasGrupo($idGrupo);
 }

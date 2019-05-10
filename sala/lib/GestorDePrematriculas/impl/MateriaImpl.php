@@ -100,8 +100,8 @@ class MateriaImpl {
     }
 
     public function setPreRequisito($idPlanEstudio,$codigoMateria = null) {
-        if(!empty($this->id)){
-            $idMateria = $this->id;
+        if(!empty($this->getId())){
+            $idMateria = $this->getId();
         }else{
             $idMateria = $codigoMateria;
         }

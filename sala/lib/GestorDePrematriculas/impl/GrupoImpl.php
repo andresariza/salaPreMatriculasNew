@@ -11,6 +11,7 @@ defined('_EXEC') or die;
 use \Sala\lib\Factory;
 use \Sala\entidad\Horario;
 use \Sala\entidad\Grupo;
+use \Sala\entidad\ReservaCupo;
 use \Sala\lib\GestorDePrematriculas\interfaces\IGrupo;
 use \Sala\lib\GestorDePrematriculas\dto\HorarioDTO;
 use \Sala\lib\GestorDePrematriculas\dto\MateriaDTO;
@@ -161,13 +162,18 @@ class GrupoImpl implements IGrupo {
                 $GrupoDTO->setId($g->getIdgrupo());
                 $GrupoDTO->setDocente($g->getNumerodocumento());
                 $GrupoDTO->setEstado($g->getCodigoestadogrupo());
-                $GrupoDTO->setMateria($materia->getId());
                 $GrupoDTO->setNombre($g->getNombregrupo());
                 $GrupoDTO->setCodigoGrupo($g->getCodigogrupo());
                 $GrupoDTO->setCupoMaximo($g->getMaximogrupo());
-                $GrupoDTO->setCupoOcupado($g->getMatriculadosgrupo());
-                $GrupoDTO->setCupoElectiva($g->getMaximogrupoelectiva());
-                $GrupoDTO->setMatriculadosElectiva($g->getMatriculadosgrupoelectiva());
+                $db = Factory::createDbo();
+                //7200 -> 2 horas
+                $where = " idGrupo = ".$db->qstr($g->getIdgrupo()) 
+                        . " AND TIMESTAMPDIFF(SECOND, fechaReserva, NOW()) <= 7200 "
+                        . " AND idEstudiante <> ".$db->qstr(Factory::getSessionVar('codigo')) ;
+                
+                $reserva = ReservaCupo::getList($where);
+                
+                $GrupoDTO->setCupoOcupado($g->getMatriculadosgrupo()+count($reserva));
                 $GrupoDTO->setPeriodoDTO($periodoDTO);
                 $GrupoDTO->setHorariosGrupo();
                 $return[] = $GrupoDTO;
