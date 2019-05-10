@@ -1,4 +1,5 @@
 var creditosSeleccionados = 0;
+var mostrarAlertaSobrecupo = true;
 var materiasSeleccionadas = new Array();
 var gruposSeleccionadas = new Array();
 var horariosSeleccionados = [null, new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
@@ -45,7 +46,7 @@ function recibePanelGrupoSeleccionado(obj){
     var grupo = $(obj).data("grupo");
     agregarMateria($(obj).data("materiaid"));
     agregarGrupo(grupo);
-    agregarCreditos($(obj).data("creditos"));
+    agregarCreditos($(obj).data("creditos"), obj);
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable .arrastrable .mensajeMateriaSeleccionada").html('<div class=\"alert alert-warning fade in\"><button class=\"close\" data-dismiss=\"alert\"><span>×</span></button><strong><i class=\"fa fa-info-circle\"></i> </strong> Esta materia ya fue seleccionada. </div>');
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable").sortable('disable');
     $("div#collapse" + $(obj).data("materiaid") + " div.sortable div.arrastrable").addClass("bg-trans-dark text-muted unsortable");
@@ -69,13 +70,34 @@ function remuevePanelGrupoSeleccionado(obj){
         llevarGrupoAMateriaPadre(obj);
     }
 }
-function agregarCreditos(creditos){
+function agregarCreditos(creditos, obj){
     creditosSeleccionados += creditos;
     $("#creditosSeleccionados").html(creditosSeleccionados);
+    
+    creditosRestantes -= creditos;
+    $("#creditosRestantes").html(creditosRestantes);
+    if(creditosRestantes<0 && mostrarAlertaSobrecupo){
+        alertaSobreCupo((creditosRestantes * -1) , obj);
+    }
+}
+
+function alertaSobreCupo(creditosSobre, obj){
+    var confirma = '<div class="text-2x alert alert-warning fade in"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong> Al elegir este grupo usted tiene un sobrecupo de '+creditosSobre+' créditos, cada crédito extra tendá un sobrecosto en el valor de su matricula, desea agregar la materia?</div>';
+    bootbox.setDefaults({
+        locale: "es"
+    });
+    bootbox.confirm(confirma, function(result) {
+        if (!result) {
+            remuevePanelGrupoSeleccionado(obj);
+        }
+    });
 }
 function removerCreditos(creditos){
     creditosSeleccionados -= creditos;
     $("#creditosSeleccionados").html(creditosSeleccionados);
+    
+    creditosRestantes += creditos;
+    $("#creditosRestantes").html(creditosRestantes);
 }
 function llevarGrupoAMateriaPadre(obj){
     var id = $(obj).attr("id");
@@ -83,7 +105,7 @@ function llevarGrupoAMateriaPadre(obj){
     $(obj).remove();
     remuevePanelGrupoSeleccionado($( "#"+id));
 }
-function llevarGrupoADestino(obj){
+function llevarGrupoASeleccionados(obj){
     console.log(obj);
     var id = $(obj).attr("id");
     $( "#"+id).clone().appendTo("div.Destino");
@@ -197,6 +219,9 @@ function validarCruceDeHorarios() {
         }
     });
 }
+function validarCuposDisponibles(obj){
+    
+}
 function desactivarItem(obj) {
     $(obj).addClass("bg-trans-dark");
     $(obj).addClass("ui-state-disabled");
@@ -218,22 +243,22 @@ function prepareToRemove(){
 function prepareToSelect(){
     $(".seleccionarGrupo button").unbind('click');
     $(".seleccionarGrupo button").click(function(){
-        llevarGrupoADestino($(this).parent().parent().parent());
+        llevarGrupoASeleccionados($(this).parent().parent().parent());
     });
 }
 function continuarReservas(reservas){
-    
     var confirma = '<div class="text-2x alert alert-success fade in"><strong><i class="fa fa-info-circle" aria-hidden="true"></i></strong> En el momento cuenta con reservas de cupo, desea continuar con ese proceso?<br>Recuerde que su reserva de cupo tiene una duración de 2 horas antes de ser liberado, si no desea continuar con el proceso perderá la reserva de cupo.</div>';
-    //bootbox.setLocale("es");
     bootbox.setDefaults({
         locale: "es"
     });
     bootbox.confirm(confirma, function(result) {
         if (result) {
-            showLoader(); 
+            showLoader();
+            mostrarAlertaSobrecupo = false;
             reservas.forEach(function(entry) {
-                llevarGrupoADestino($("#"+entry));
+                llevarGrupoASeleccionados($("#"+entry));
             });
+            mostrarAlertaSobrecupo = true;
             hideLoader();
         }else{
             reservas.forEach(function(entry) {

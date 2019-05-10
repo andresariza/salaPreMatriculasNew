@@ -19,13 +19,15 @@ class EstudianteDTO {
     private $estado;
     private $nombres;
     private $apellidos;
+    private $semestreMatricula;
     
-    public function __construct($id, $codigo, $estado, $nombres, $apellidos) {
+    public function __construct($id, $codigo, $estado, $nombres, $apellidos, $semestreMatricula) {
         $this->id = $id;
         $this->codigo = $codigo;
         $this->estado = $estado;
         $this->nombres = $nombres;
         $this->apellidos = $apellidos;
+        $this->semestreMatricula = $semestreMatricula;
     }
     public function getId() {
         return $this->id;
@@ -45,5 +47,9 @@ class EstudianteDTO {
 
     public function getApellidos() {
         return $this->apellidos;
+    }
+    
+    public function getSemestreMatricula() {
+        return $this->semestreMatricula;
     }
 }

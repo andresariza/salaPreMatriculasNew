@@ -10,7 +10,7 @@ defined('_EXEC') or die;
  * @package model
  */
 use \Sala\lib\Factory;
-use \Sala\lib\GestorDePrematriculas\control\ControllerAcceso;
+use \Sala\lib\GestorDePrematriculas\control\Controller;
 use \Sala\interfaces\Model;
 
 class Prematricula implements Model {
@@ -28,17 +28,18 @@ class Prematricula implements Model {
     public function getVariables($variables) {
         $return = array("variables" => $variables);
         
-        $ControllerAcceso = new ControllerAcceso();
+        $Controller = new Controller();
         
-        $estudianteImpl = $ControllerAcceso->getEstudiante();
+        $estudianteImpl = $Controller->getEstudiante();
         
         $return['Estudiante'] = $estudianteImpl->getEstudianteDTO();
-        $return['acceso'] = $ControllerAcceso->validarDatosAccesoPrematricula();
+        $return['acceso'] = $Controller->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
-            $return['PlanEstudio'] = $ControllerAcceso->buscarPlanEstudio($estudianteImpl->getEstudianteDTO());
-            $return['reservas'] = $ControllerAcceso->consultarReservas($estudianteImpl->getEstudianteDTO());
+            $return['PlanEstudio'] = $Controller->buscarPlanEstudio($estudianteImpl->getEstudianteDTO());
+            $return['reservas'] = $Controller->consultarReservas($estudianteImpl->getEstudianteDTO());
+            $return['creditosDisponibles'] = $Controller->consultarCreditos($return['PlanEstudio'], $estudianteImpl->getEstudianteDTO());
         } else {
-            $return['mensajeError'] = $ControllerAcceso->getMensajeError();
+            $return['mensajeError'] = $Controller->getMensajeError();
         }
         return $return;
     }

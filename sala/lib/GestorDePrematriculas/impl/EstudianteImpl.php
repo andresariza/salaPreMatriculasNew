@@ -11,15 +11,9 @@ use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 class EstudianteImpl  implements IEstudiante {
     private $estudianteDTO; 
     
-    function __construct($id, $codigo, $estado, $nombres, $apellidos) {
+    function __construct($id, $codigo, $estado, $nombres, $apellidos, $semestreMatricula) {
         $this->estudianteDTO = new EstudianteDTO($id, $codigo, $estado, 
-                $nombres, $apellidos);
-    }
-
-    
-    //put your code here
-    public function consultarCreditosDisponibles() {
-        
+                $nombres, $apellidos, $semestreMatricula);
     }
 
     public function validarEstado() {

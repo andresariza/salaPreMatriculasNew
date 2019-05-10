@@ -91,6 +91,7 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
             $this->setNombre($ePlanEstudio->getNombreplanestudio());
             $this->setListadoMaterias($this->getMateriasPlanEstudio());
         }
+        
         $this->validarMateriasDisponibles($periodo);
         return $this->getPlanEstudioDTO();
     }
@@ -131,7 +132,8 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
     }
     
     private function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO){
-        return GrupoImpl::getGruposMateria($materia, $periodoDTO);
+        $grupo = new GrupoImpl();
+        return $grupo->getGruposMateria($materia, $periodoDTO);
     }
     
     private function getMateriasPlanEstudio(){

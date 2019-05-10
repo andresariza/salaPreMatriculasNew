@@ -15,7 +15,5 @@ use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
  * @author Andres
  */
 interface IGrupo {
-    public function seleccionar();
-    public function quitar();
-    public static function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO);
+    public function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO);
 }

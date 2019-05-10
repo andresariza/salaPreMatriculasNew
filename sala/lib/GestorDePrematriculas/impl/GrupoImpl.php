@@ -148,16 +148,8 @@ class GrupoImpl implements IGrupo {
             $this->horariosGrupo[$i] = new HorarioDTO(0, "Sin horario", "00:00", "00:00");
         }
     }
-    
-    public function quitar() {
-        
-    }
 
-    public function seleccionar() {
-        
-    }
-
-    public static function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO) {
+    public function getGruposMateria(MateriaDTO $materia, PeriodoDTO $periodoDTO) {
         $return = array();
         $db = Factory::createDbo();
         $where = " codigomateria = ".$db->qstr($materia->getId())

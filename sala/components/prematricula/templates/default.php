@@ -9,6 +9,8 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
 ?>
 <script type="text/javascript">
     var height = <?php echo count($listadoMateriasDisponibles)*45;?>;
+    var creditosRestantes = <?php echo empty($creditosDisponibles)?0:$creditosDisponibles; ?>;
+    
     <?php
     if(!empty($reservas)){
         $idsReservas = array();
@@ -171,9 +173,17 @@ echo Sala\lib\Factory::printImportJsCss("js",HTTP_SITE."/components/prematricula
                     </div>
                     <div class="row">
                         <span class="text-xs text-light">
-                            <strong>Creditos seleccionados:</strong> 
+                            <strong>Total creditos disponibles:</strong> 
+                        </span>
+                        <span class="text-xs text-light" id="totalCreditos"><?php echo $creditosDisponibles; ?></span>
+                        <span class="text-xs text-light">
+                            <strong> - Creditos seleccionados:</strong> 
                         </span>
                         <span class="text-xs text-light" id="creditosSeleccionados">0</span>
+                        <span class="text-xs text-light">
+                            <strong> - Creditos restantes:</strong> 
+                        </span>
+                        <span class="text-xs text-light" id="creditosRestantes"><?php echo $creditosDisponibles; ?></span>
                     </div>
                     <div class="panel-body bg-gray-light sortable Destino" >
                         

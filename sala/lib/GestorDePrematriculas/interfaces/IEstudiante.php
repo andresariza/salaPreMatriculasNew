@@ -14,7 +14,6 @@ defined('_EXEC') or die;
  * @author arizaandres
  */
 interface IEstudiante {
-    public function consultarCreditosDisponibles();
     public function validarEstado();
     public function validarInformacionEstudiante();
 }

@@ -29,16 +29,15 @@ class EstudianteDAO  implements IEstudianteDAO {
         $eEstudiante = new Estudiante();
         $eEstudiante->setCodigoEstudiante($codigo);
         $eEstudiante->getById();
-        //d($eEstudiante);
         
         $eEstudianteGeneral = new EstudianteGeneral();
         $eEstudianteGeneral->setIdestudiantegeneral($idEstudianteGeneral);
         $eEstudianteGeneral->getById();
-        //d($eEstudianteGeneral);
         
         $this->EstudianteImpl = new EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
                 $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
-                $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral());
+                $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral(),
+                $eEstudiante->getSemestre());
         return $this->EstudianteImpl;
     }
 }

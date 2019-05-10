@@ -8,12 +8,12 @@
 
 namespace Sala\lib\GestorDePrematriculas\interfaces;
 defined('_EXEC') or die;
+use Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO;
+use Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 /**
  *
  * @author arizaandres
  */
 interface ICreditosDisponibles {
-    public function agregarCreditos();
-    public function consultarCreditos();
-    public function descontarCreditos();
+    public function consultarCreditos(PlanEstudioDTO $planEstudioDTO, EstudianteDTO $estudianteDTO);
 }

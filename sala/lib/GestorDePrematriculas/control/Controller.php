@@ -9,7 +9,7 @@ namespace Sala\lib\GestorDePrematriculas\control;
 defined('_EXEC') or die;
 
 /**
- * Description of ControlAcceso
+ * Description of Controller
  *
  * @author Andres
  */
@@ -18,12 +18,14 @@ use \Sala\lib\Factory;
 use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
 use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO;
 use \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante;
 use \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl;
 use \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl;
 use \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl;
+use \Sala\lib\GestorDePrematriculas\impl\CreditosDisponiblesImpl;
 
-class ControllerAcceso {
+class Controller {
     
     private $CarreraDTO;
     private $periodoDTO;
@@ -130,5 +132,10 @@ class ControllerAcceso {
 
     public function reservarCupo(EstudianteDTO $estudianteDTO,$grupoid) {
         return $this->DAOBridgeImpl->reservarCupo($estudianteDTO, $grupoid);
+    }
+    
+    public function consultarCreditos(PlanEstudioDTO $planEstudioDTO, EstudianteDTO $estudianteDTO){
+        $CreditosDisponiblesImpl = new CreditosDisponiblesImpl();
+        return $CreditosDisponiblesImpl->consultarCreditos($planEstudioDTO, $estudianteDTO);
     }
 }
