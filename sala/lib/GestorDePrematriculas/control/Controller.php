@@ -19,11 +19,11 @@ use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
 use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 use \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO;
-use \Sala\lib\GestorDePrematriculas\interfaces\IEstudiante;
-use \Sala\lib\GestorDePrematriculas\impl\DAOBridgeImpl;
-use \Sala\lib\GestorDePrematriculas\impl\FechaAcademicaImpl;
-use \Sala\lib\GestorDePrematriculas\impl\PazYSalvoImpl;
-use \Sala\lib\GestorDePrematriculas\impl\CreditosDisponiblesImpl;
+use \Sala\lib\GestorDePrematriculas\interfaces\estudiante\IEstudiante;
+use \Sala\lib\GestorDePrematriculas\impl\daoBridge\DAOBridgeImpl;
+use \Sala\lib\GestorDePrematriculas\impl\validaAcceso\FechaAcademicaImpl;
+use \Sala\lib\GestorDePrematriculas\impl\validaAcceso\PazYSalvoImpl;
+use \Sala\lib\GestorDePrematriculas\impl\auxiliaresPlanEstudio\CreditosDisponiblesImpl;
 
 class Controller {
     

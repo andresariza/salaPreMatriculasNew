@@ -78,4 +78,8 @@ class ControlPrematricula {
         }
         return $listadoDisponibles;
     }
+    
+    public function finalizarPrematricula(){
+        ddd($this->variables->grupoId);
+    }
 }

@@ -7,13 +7,14 @@
  */
 
 namespace Sala\entidad;
-
+defined('_EXEC') or die;
+use \Sala\interfaces\Entidad;
 /**
  * Description of DetallePlanEstudio
  *
  * @author Andres
  */
-class DetallePlanEstudio implements \Sala\interfaces\Entidad {
+class DetallePlanEstudio implements Entidad {
 
     /**
      * @type adodb Object

@@ -39,6 +39,7 @@ class Prematricula implements Model {
             $return['reservas'] = $Controller->consultarReservasEstudiante($estudianteImpl->getEstudianteDTO());
             $return['creditosDisponibles'] = $Controller->consultarCreditos($return['PlanEstudio'], $estudianteImpl->getEstudianteDTO());
         } else {
+            $variables->layout = "accesoRestringido";
             $return['mensajeError'] = $Controller->getMensajeError();
         }
         return $return;
