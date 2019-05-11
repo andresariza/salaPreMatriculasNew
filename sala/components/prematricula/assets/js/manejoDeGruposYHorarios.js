@@ -14,7 +14,8 @@ function llevarGrupoASeleccionados(obj){
     recibirPanelGrupoSeleccionado($( "#"+id));
 }
 function agregarGrupo(grupo) {
-    gruposSeleccionadas.push(grupo.grupoId);
+    var idMateria = $("#"+grupo.grupoId).data("materiaid");
+    gruposSeleccionadas.push([parseInt(grupo.grupoId),idMateria]);
     reservarCupo(grupo.grupoId);
     grupo.horarios.forEach(function (item, index) {
         horariosSeleccionados[parseInt(item.dia)].push([item.ini, item.fin, item.iniReal, item.finReal, item.grupo, item.materia]);
@@ -22,7 +23,7 @@ function agregarGrupo(grupo) {
 }
 function removerGrupo(grupo) {
     gruposSeleccionadas = gruposSeleccionadas.filter(function (item) {
-        return item !== grupo.grupoId;
+        return item[0] !== grupo.grupoId;
     });
     removerCupo(grupo.grupoId);
     grupo.horarios.forEach(function (item, index) {

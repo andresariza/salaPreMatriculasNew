@@ -20,14 +20,14 @@ use \Sala\lib\GestorDePrematriculas\dto\GrupoDTO;
  * @author Andres
  */
 class DetallePrematriculaImpl implements IDetallePrematricula{
-    private $gruposDTO = array();
     private $periodoDTO;
+    private $materiaGrupo = array();
     public function __construct($periodoDTO) {
         $this->periodoDTO = $periodoDTO;
     }
 
-    public function agregrarGrupoDetalle($grupoId) {
-        $entGrupo = new Grupo();
+    public function agregrarGrupoDetalle($grupoId, $materiaId) {
+        /*$entGrupo = new Grupo();
         $entGrupo->setIdgrupo($grupoId);
         $entGrupo->getById();
         
@@ -49,8 +49,9 @@ class DetallePrematriculaImpl implements IDetallePrematricula{
 
         $GrupoDTO->setCupoOcupado($entGrupo->getMatriculadosgrupo()+count($reserva));
         $GrupoDTO->setPeriodoDTO($this->periodoDTO);
-        $GrupoDTO->setHorariosGrupo();
-        $this->gruposDTO[] = $GrupoDTO;
+        $GrupoDTO->setHorariosGrupo();/**/
+        $this->materiaGrupo[] = array($materiaId,$grupoId);
+        return true;
     }
 
 }

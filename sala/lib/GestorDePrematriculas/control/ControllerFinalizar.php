@@ -9,23 +9,25 @@
 namespace Sala\lib\GestorDePrematriculas\control;
 defined('_EXEC') or die;
 use \Sala\lib\GestorDePrematriculas\impl\prematricula\PrematriculaImpl;
-use \Sala\lib\GestorDePrematriculas\impl\prematricula\DetallePrematriculaImpl;
 /**
  * Description of ControllerFinalizar
  *
  * @author Andres
  */
 class ControllerFinalizar {
-    private $prematricula;
-    private $detallePrematricula;
+    private $prematriculaImpl;
     
     public function __construct($estudianteDTO, $periodoDTO) {
-        $this->prematricula = new PrematriculaImpl($estudianteDTO, $periodoDTO);
-        $this->detallePrematricula = new DetallePrematriculaImpl($periodoDTO);
+        $this->prematriculaImpl = new PrematriculaImpl($estudianteDTO, $periodoDTO);
     }
     
-    public function crearDetallePrematricula($idGrupo){
-        $this->detallePrematricula->agregrarGrupoDetalle($idGrupo);
+    public function crearDetallePrematricula($idGrupo,$idMateria){
+        $this->prematriculaImpl->agregrarDetalleMateriaGrupo($idMateria,$idGrupo);
+    }
+    
+    public function agregarPrematricula(){
+        $this->prematriculaImpl->agregrarPrematricula();
+        return $this->prematriculaImpl;
     }
 
 }

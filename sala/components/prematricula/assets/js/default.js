@@ -30,7 +30,21 @@ function finalizarYGuardar(){
                         action : "finalizarPrematricula",
                         grupoId : JSON.stringify(gruposSeleccionadas)
                     },
-                    success: function( data ){},
+                    success: function( data ){
+                        if(data.s){
+                            var titulo = "Prematricula finalizada";
+                            abrirModal(titulo,data.msj);
+                            setTimeout(function(){
+                                $(".modal-dialog .bootbox-close-button.close").trigger("click");
+                                $("#mainnav-menu #menuId_0").trigger("click");
+                                
+                                contentHTML = alertContent.replace("fa-icon", dataAlert[2].icon);
+                                contentHTML = contentHTML.replace('<span class="text-2x"></span>', '<span class="text-2x">'+data.msj+'</span>');
+                
+                                showAlert(dataAlert[2].type,contentHTML,true);
+                            }, 2000);
+                        }
+                    },
                     error: function (xhr, ajaxOptions, thrownError) {}
                 }).always(function() {
                     hideLoader();

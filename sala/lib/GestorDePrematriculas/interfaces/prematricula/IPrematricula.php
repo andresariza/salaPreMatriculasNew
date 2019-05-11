@@ -14,4 +14,5 @@ defined('_EXEC') or die;
  */
 interface IPrematricula {
     public function agregrarPrematricula(); 
+    public function agregrarDetalleMateriaGrupo($materiaId,$grupoId);
 }

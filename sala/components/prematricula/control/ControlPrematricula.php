@@ -82,15 +82,16 @@ class ControlPrematricula {
     }
     
     public function finalizarPrematricula(){
+        //d($this->variables);
         $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
         $periodoDTO = $this->Controller->getPeriodoDTO();
         
         $controllerFinalizar = new ControllerFinalizar($estudianteDTO, $periodoDTO);
-        $arrayIdGrupo = json_decode($this->variables->grupoId); 
-        foreach ($arrayIdGrupo as $idGrupo){
-            $controllerFinalizar->crearDetallePrematricula($idGrupo);
+        $arrayGrupoMateria = json_decode($this->variables->grupoId); 
+        foreach ($arrayGrupoMateria as $grupoMateria){
+            $controllerFinalizar->crearDetallePrematricula($grupoMateria[0], $grupoMateria[1]);
         }
-        d($controllerFinalizar);
-        ddd($this->variables->grupoId);
+        $controllerFinalizar->agregarPrematricula();
+        echo json_encode(array("s"=>true, "msj"=>"Su orden de pago ha sido generada"));
     }
 }

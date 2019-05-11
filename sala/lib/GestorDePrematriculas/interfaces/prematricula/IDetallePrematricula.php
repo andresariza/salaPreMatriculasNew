@@ -14,5 +14,5 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IDetallePrematricula {
-    public function agregrarGrupoDetalle($grupoId);
+    public function agregrarGrupoDetalle($grupoId, $materiaId);
 }
