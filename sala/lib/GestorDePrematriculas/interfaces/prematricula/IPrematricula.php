@@ -13,6 +13,5 @@ defined('_EXEC') or die;
  * @author arizaandres
  */
 interface IPrematricula {
-    public function agregrarPrematricula();
-    public function eliminarPrematricula();
+    public function agregrarPrematricula(); 
 }

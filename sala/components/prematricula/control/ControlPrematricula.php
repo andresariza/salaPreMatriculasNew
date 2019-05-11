@@ -9,8 +9,9 @@
 namespace Sala\components\prematricula\control;
 defined('_EXEC') or die;
 use \Sala\lib\Factory;
-use \Sala\lib\GestorDePrematriculas\control\Controller;   
 use \Sala\entidad\Grupo;
+use \Sala\lib\GestorDePrematriculas\control\Controller;
+use \Sala\lib\GestorDePrematriculas\control\ControllerFinalizar;
 
 /**
  * Description of ControlPrematricula
@@ -31,6 +32,7 @@ class ControlPrematricula {
     private $variables;
     
     private $Controller;
+    private $ControllerFinalizar;
     
     public function __construct() {
         $this->db = Factory::createDbo();
@@ -80,6 +82,15 @@ class ControlPrematricula {
     }
     
     public function finalizarPrematricula(){
+        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
+        $periodoDTO = $this->Controller->getPeriodoDTO();
+        
+        $controllerFinalizar = new ControllerFinalizar($estudianteDTO, $periodoDTO);
+        $arrayIdGrupo = json_decode($this->variables->grupoId); 
+        foreach ($arrayIdGrupo as $idGrupo){
+            $controllerFinalizar->crearDetallePrematricula($idGrupo);
+        }
+        d($controllerFinalizar);
         ddd($this->variables->grupoId);
     }
 }

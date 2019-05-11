@@ -72,13 +72,10 @@ class Controller {
     
     public function setPeriodoDTO(){
         $periodoVigente = Servicios::getPeriodoVigente();
-        $this->periodoDTO = new PeriodoDTO(null,
+        $this->periodoDTO = new PeriodoDTO(
                 $periodoVigente->getCodigoperiodo(),
-                $periodoVigente->getCodigoperiodo(),
-                null,
                 $periodoVigente->getFechainicioperiodo(),
                 $periodoVigente->getFechavencimientoperiodo(),
-                $periodoVigente->getNombreperiodo(),
                 $periodoVigente->getNumeroperiodo());
         unset($periodoVigente);
     }

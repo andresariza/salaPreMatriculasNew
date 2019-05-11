@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Sala\lib\GestorDePrematriculas\interfaces\prematicula;
+namespace Sala\lib\GestorDePrematriculas\interfaces\prematricula;
 defined('_EXEC') or die;
 
 /**
@@ -14,6 +14,5 @@ defined('_EXEC') or die;
  * @author Andres
  */
 interface IDetallePrematricula {
-    public function agregrarGrupo();
-    public function eliminarGrupo();
+    public function agregrarGrupoDetalle($grupoId);
 }
