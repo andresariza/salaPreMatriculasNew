@@ -154,6 +154,7 @@ class GrupoImpl implements IGrupo {
         $return = array();
         $db = Factory::createDbo();
         $where = " codigomateria = ".$db->qstr($materia->getId())
+                . " AND matriculadosgrupo < maximogrupo" 
                 . " AND codigoperiodo = ".$db->qstr($periodoDTO->getCodigoPeriodo());
         $eGrupo = Grupo::getList($where);
         if(!empty($eGrupo)){

@@ -75,18 +75,18 @@ function continuarReservas(reservas){
         locale: "es"
     });
     bootbox.confirm(confirma, function(result) {
+        mostrarAlertaSobrecupo = false;
         if (result) {
             showLoader();
-            mostrarAlertaSobrecupo = false;
             reservas.forEach(function(entry) {
                 llevarGrupoASeleccionados($("#"+entry));
             });
-            mostrarAlertaSobrecupo = true;
             hideLoader();
         }else{
             reservas.forEach(function(entry) {
                 llevarGrupoAMateriaPadre($("#"+entry));
             });
         }
+        mostrarAlertaSobrecupo = true;
     });
 }
