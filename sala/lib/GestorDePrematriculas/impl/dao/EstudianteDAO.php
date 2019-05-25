@@ -8,8 +8,10 @@
 
 namespace Sala\lib\GestorDePrematriculas\impl\dao;
 defined('_EXEC') or die;
+use \Sala\lib\Servicios;
 use \Sala\entidad\Estudiante;
 use \Sala\entidad\EstudianteGeneral;
+use \Sala\entidad\Prematricula;
 use \Sala\lib\GestorDePrematriculas\interfaces\dao\IEstudianteDAO;
 use \Sala\lib\GestorDePrematriculas\impl\estudiante\EstudianteImpl;
 
@@ -19,7 +21,7 @@ use \Sala\lib\GestorDePrematriculas\impl\estudiante\EstudianteImpl;
  * @author Andres
  */
 class EstudianteDAO  implements IEstudianteDAO {
-    private $EstudianteImpl;
+    private $EstudianteDTO;
     
     public function __construct() {
         
@@ -34,10 +36,15 @@ class EstudianteDAO  implements IEstudianteDAO {
         $eEstudianteGeneral->setIdestudiantegeneral($idEstudianteGeneral);
         $eEstudianteGeneral->getById();
         
-        $this->EstudianteImpl = new EstudianteImpl($eEstudiante->getCodigoesEstudiante(), 
+        $periodoVigente = Servicios::getPeriodoVigente(); 
+        $ePrematricula = Prematricula::getPrematriculaEstudiante($eEstudiante->getCodigoesEstudiante(), $periodoVigente->getCodigoperiodo());
+        
+        
+        $this->EstudianteDTO = new \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO($eEstudiante->getCodigoesEstudiante(), 
                 $eEstudiante->getCodigoesEstudiante(), $eEstudiante->getCodigosituacioncarreraestudiante(),
                 $eEstudianteGeneral->getNombresestudiantegeneral(), $eEstudianteGeneral->getApellidosestudiantegeneral(),
-                $eEstudiante->getSemestre());
-        return $this->EstudianteImpl;
+                $eEstudiante->getSemestre(), $ePrematricula);
+        
+        return $this->EstudianteDTO;
     }
 }

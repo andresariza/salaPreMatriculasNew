@@ -11,7 +11,8 @@
  */
 
 require(realpath(dirname(__FILE__)."/../config/Configuration.php"));
-$Configuration = Configuration::getInstance();
+
+$Configuration = new \Sala\config\Configuration();
 require_once (PATH_ROOT.'/kint/Kint.class.php');
 
 require (PATH_SITE.'/lib/Factory.php');
@@ -21,7 +22,7 @@ require (PATH_SITE.'/lib/Factory.php');
  * por el sistema a nivel POST, GET y REQUEST, este Objeto $variables es utilizado en todo el sistema
  * para desligarce de los metodos de acceso estandares
  */
-$variables = new stdClass();
+$variables = new \stdClass();
 $option = "";
 $tastk = "";
 $action = "";
@@ -59,4 +60,4 @@ if(empty($itemId)){
     $variables->itemId = 0;
 }
 
-$db = Factory::createDbo();
+$db = \Sala\lib\Factory::createDbo();

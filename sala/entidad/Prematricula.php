@@ -137,6 +137,22 @@ class Prematricula implements \Sala\interfaces\Entidad{
         }
     }
 
+    public static function getPrematriculaEstudiante($codigoEstudiante, $codigoPeriodo) {
+        $db = Factory::createDbo();
+        $where = "codigoestudiante = ".$db->qstr($codigoEstudiante)
+                . " AND codigoPeriodo = ".$db->qstr($codigoPeriodo);
+        
+        $r = Prematricula::getList($where);
+        
+        if(empty($r)){
+            $r = false;
+        }else{
+            $r = true;
+        }
+        
+        return $r;
+    }
+    
     public static function getList($where=null) { 
         $db = Factory::createDbo();
         

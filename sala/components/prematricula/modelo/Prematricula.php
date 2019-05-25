@@ -29,15 +29,12 @@ class Prematricula implements Model {
         $return = array("variables" => $variables);
         
         $Controller = new Controller();
-        
-        $estudianteImpl = $Controller->getEstudiante();
-        
-        $return['Estudiante'] = $estudianteImpl->getEstudianteDTO();
         $return['acceso'] = $Controller->validarDatosAccesoPrematricula();
         if ( $return['acceso'] ) {
-            $return['PlanEstudio'] = $Controller->buscarPlanEstudio($estudianteImpl->getEstudianteDTO());
-            $return['reservas'] = $Controller->consultarReservasEstudiante($estudianteImpl->getEstudianteDTO());
-            $return['creditosDisponibles'] = $Controller->consultarCreditos($return['PlanEstudio'], $estudianteImpl->getEstudianteDTO());
+            $return['PlanEstudio'] = $Controller->buscarPlanEstudio($Controller->getEstudiante());
+            $return['reservas'] = $Controller->consultarReservasEstudiante($Controller->getEstudiante());
+            $return['creditosDisponibles'] = $Controller->consultarCreditos($return['PlanEstudio'], $Controller->getEstudiante());
+            $return['Estudiante'] = $Controller->getEstudiante();
         } else {
             $variables->layout = "accesoRestringido";
             $return['mensajeError'] = $Controller->getMensajeError();

@@ -177,7 +177,6 @@ class Materia implements \Sala\interfaces\Entidad{
     private $TipoRotacionId;
     
     public function __construct(){
-        $this->setDb();
     }
     
     public function setDb(){
@@ -401,13 +400,14 @@ class Materia implements \Sala\interfaces\Entidad{
     }
     
     public function getById(){
+        $this->setDb();
         if(!empty($this->codigomateria)){
             $query = "SELECT * FROM materia "
                     ." WHERE codigomateria = ".$this->db->qstr($this->codigomateria);
             
             $datos = $this->db->Execute($query);
             $d = $datos->FetchRow();
-            
+            //d($query);
             if(!empty($d)){
                 $this->nombrecortomateria = $d['nombrecortomateria'];
                 $this->nombremateria = $d['nombremateria'];

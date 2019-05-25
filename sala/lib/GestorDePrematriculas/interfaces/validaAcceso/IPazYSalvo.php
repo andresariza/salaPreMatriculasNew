@@ -8,11 +8,13 @@
 
 namespace Sala\lib\GestorDePrematriculas\interfaces\validaAcceso;
 defined('_EXEC') or die;
+use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 
 /**
  *
  * @author Andres
  */
 interface IPazYSalvo {
-    public function validarPazYSalvoEstudiante();
+    public function validarPazYSalvoEstudiante(EstudianteDTO $Estudiante, PeriodoDTO $PeriodoDTO);
 }

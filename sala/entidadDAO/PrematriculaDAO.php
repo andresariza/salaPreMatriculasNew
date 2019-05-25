@@ -10,13 +10,13 @@ namespace Sala\entidadDAO;
 defined('_EXEC') or die;
 use \Sala\lib\Factory;
 use \Sala\interfaces\EntidadDAO;
-use \Sala\entidad\ReservaCupo;
+use \Sala\entidad\Prematricula;
 /**
  * Description of ReservaCupoDAO
  *
  * @author Andres
  */
-class ReservaCupoDAO implements EntidadDAO {
+class PrematriculaDAO implements EntidadDAO {
     /**
      * @type adodb Object
      * @access private
@@ -27,10 +27,10 @@ class ReservaCupoDAO implements EntidadDAO {
      * @type Estudiante
      * @access private
      */
-    private $reservaCupo;
+    private $prematriculaEnt;
 
-    public function __construct(ReservaCupo $reservaCupo) {
-        $this->reservaCupo = $reservaCupo;
+    public function __construct(Prematricula $prematriculaEnt) {
+        $this->prematriculaEnt = $prematriculaEnt;
         $this->setDb();
     }
 
@@ -40,36 +40,36 @@ class ReservaCupoDAO implements EntidadDAO {
 
     public function save() {    
         $query = ""; $where = array();
-        $id = $this->reservaCupo->getId();
+        $id = $this->prematriculaEnt->getIdprematricula();
         
         if(empty($id)){
             $query .= "INSERT INTO ";
         }else{
             $query .= "UPDATE ";
-            $where[] = " id = ".$this->db->qstr($id);
+            $where[] = " idprematricula = ".$this->db->qstr($id);
         }
       
-        $query .= " ReservaCupo SET   idEstudiante = ".$this->db->qstr($this->reservaCupo->getIdEstudiante()).", idGrupo = ".$this->db->qstr($this->reservaCupo->getIdGrupo()).", fechaReserva = ".$this->db->qstr($this->reservaCupo->getFechaReserva()).""; 
+        $query .= " prematricula SET   fechaprematricula = ".$this->db->qstr($this->prematriculaEnt->getFechaprematricula()) .", codigoestudiante = ".$this->db->qstr($this->prematriculaEnt->getCodigoestudiante()) .", codigoperiodo = ".$this->db->qstr($this->prematriculaEnt->getCodigoperiodo()) .", codigoestadoprematricula = ".$this->db->qstr($this->prematriculaEnt->getCodigoestadoprematricula()) .", observacionprematricula = ".$this->db->qstr($this->prematriculaEnt->getObservacionprematricula()) .", semestreprematricula = ".$this->db->qstr($this->prematriculaEnt->getSemestreprematricula())."";
        
         if(!empty($where)){
             $query .= " WHERE ".implode(" AND ",$where);
         }
-        //d($query);
+        //ddd($query);
         $rs = $this->db->Execute($query);
         if(empty($id)){
-            $this->reservaCupo->setId($this->db->insert_Id());
+            $this->prematriculaEnt->setIdprematricula($this->db->insert_Id());
         }
         
-        $this->logAuditoria($this->reservaCupo, $query);
+        $this->logAuditoria($this->prematriculaEnt, $query);
         return $rs;
     }
     
     public function delete(){
-        $query = "";
-        $id = $this->reservaCupo->getId();
+        $query = ""; $where = array();
+        $id = $this->prematriculaEnt->getIdprematricula();
         
         if(!empty($id)){
-            $query .= "DELETE FROM ReservaCupo WHERE id = ".$this->db->qstr($id);
+            $query .= "DELETE FROM prematricula WHERE idprematricula = ".$this->db->qstr($id);
             
             $rs = $this->db->Execute($query);
             

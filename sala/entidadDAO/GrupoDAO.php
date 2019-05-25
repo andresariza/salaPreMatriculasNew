@@ -10,13 +10,13 @@ namespace Sala\entidadDAO;
 defined('_EXEC') or die;
 use \Sala\lib\Factory;
 use \Sala\interfaces\EntidadDAO;
-use \Sala\entidad\ReservaCupo;
+use \Sala\entidad\Grupo;
 /**
  * Description of ReservaCupoDAO
  *
  * @author Andres
  */
-class ReservaCupoDAO implements EntidadDAO {
+class GrupoDAO implements EntidadDAO {
     /**
      * @type adodb Object
      * @access private
@@ -27,10 +27,10 @@ class ReservaCupoDAO implements EntidadDAO {
      * @type Estudiante
      * @access private
      */
-    private $reservaCupo;
+    private $entidad;
 
-    public function __construct(ReservaCupo $reservaCupo) {
-        $this->reservaCupo = $reservaCupo;
+    public function __construct(Grupo $entidad) {
+        $this->entidad = $entidad;
         $this->setDb();
     }
 
@@ -40,36 +40,36 @@ class ReservaCupoDAO implements EntidadDAO {
 
     public function save() {    
         $query = ""; $where = array();
-        $id = $this->reservaCupo->getId();
+        $id = $this->entidad->getIdgrupo();
         
         if(empty($id)){
             $query .= "INSERT INTO ";
         }else{
             $query .= "UPDATE ";
-            $where[] = " id = ".$this->db->qstr($id);
+            $where[] = " idgrupo = ".$this->db->qstr($id);
         }
       
-        $query .= " ReservaCupo SET   idEstudiante = ".$this->db->qstr($this->reservaCupo->getIdEstudiante()).", idGrupo = ".$this->db->qstr($this->reservaCupo->getIdGrupo()).", fechaReserva = ".$this->db->qstr($this->reservaCupo->getFechaReserva()).""; 
+        $query .= " grupo SET matriculadosgrupo = ".$this->db->qstr($this->entidad->getMatriculadosgrupo())."";
        
         if(!empty($where)){
             $query .= " WHERE ".implode(" AND ",$where);
         }
-        //d($query);
+        
         $rs = $this->db->Execute($query);
         if(empty($id)){
-            $this->reservaCupo->setId($this->db->insert_Id());
+            $this->entidad->setIdgrupo($this->db->insert_Id());
         }
         
-        $this->logAuditoria($this->reservaCupo, $query);
+        $this->logAuditoria($this->entidad, $query);
         return $rs;
     }
     
     public function delete(){
-        $query = "";
-        $id = $this->reservaCupo->getId();
+        $query = ""; $where = array();
+        $id = $this->entidad->getIdgrupo();
         
         if(!empty($id)){
-            $query .= "DELETE FROM ReservaCupo WHERE id = ".$this->db->qstr($id);
+            $query .= "DELETE FROM grupo WHERE idgrupo = ".$this->db->qstr($id);
             
             $rs = $this->db->Execute($query);
             

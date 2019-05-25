@@ -26,8 +26,7 @@ class ControllerFinalizar {
     }
     
     public function agregarPrematricula(){
-        $this->prematriculaImpl->agregrarPrematricula();
-        return $this->prematriculaImpl;
+        return $this->prematriculaImpl->agregrarPrematricula(); 
     }
 
 }

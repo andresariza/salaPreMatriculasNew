@@ -10,6 +10,7 @@ namespace Sala\lib\GestorDePrematriculas\impl\validaAcceso;
 defined('_EXEC') or die;
 use \Sala\lib\GestorDePrematriculas\interfaces\validaAcceso\IPazYSalvo;
 use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
+use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 
 /**
  * Description of PazYSalvoImpl
@@ -23,10 +24,17 @@ class PazYSalvoImpl implements IPazYSalvo {
         $this->Estudiante = $Estudiante;
     }
     
-    public function validarPazYSalvoEstudiante() {
-        //toDo por el alcance del proyecto, no es posible validar el paz y salvo
-        // razon por la cual se asume que todos los estudiantes estan a paz y salvo
-        return true;
+    public function validarPazYSalvoEstudiante(EstudianteDTO $Estudiante, PeriodoDTO $PeriodoDTO) {
+        
+        $servicio="http://localhost/peoplesoft/pazysalvo/PazYSalvo.wsdl?wsdl";
+        $parametros=array(); //parametros de la llamada
+        $parametros['idEstudiante'] = $Estudiante->getCodigo();
+        $parametros['codigoPeriodo'] = $PeriodoDTO->getCodigoPeriodo(); 
+        
+        $client = new \SoapClient($servicio, $parametros);
+        $pazYSalvo = $client->getPazYSalvo($parametros);
+        
+        return $pazYSalvo;
     }
 
 }

@@ -15,5 +15,4 @@ defined('_EXEC') or die;
  */
 interface IEstudiante {
     public function validarEstado();
-    public function validarInformacionEstudiante();
 }

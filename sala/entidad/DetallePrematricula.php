@@ -47,6 +47,12 @@ class DetallePrematricula implements \Sala\interfaces\Entidad{
     private $codigomateriaelectiva;
     
     /**
+     * @type int
+     * @access private
+     */
+    private $codigoestadodetalleprematricula;
+    
+    /**
      * @type String
      * @access private
      */
@@ -90,6 +96,16 @@ class DetallePrematricula implements \Sala\interfaces\Entidad{
         return $this->codigomateria;
     }
     
+    
+    public function getCodigoestadodetalleprematricula() {
+        return $this->codigoestadodetalleprematricula;
+    }
+
+    public function setCodigoestadodetalleprematricula($codigoestadodetalleprematricula) {
+        $this->codigoestadodetalleprematricula = $codigoestadodetalleprematricula;
+    }
+
+        
     public function getMateria() {
         return $this->Materia;
     }

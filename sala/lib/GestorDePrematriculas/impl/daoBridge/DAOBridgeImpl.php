@@ -25,12 +25,12 @@ class DAOBridgeImpl extends DAOBridge {
 
     
     public function buscarPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO) {
-        $this->getPlanEstudioDAO()->setCarreraDto($this->getCarrera());
+        $this->getPlanEstudioDAO()->setCarreraDto($this->consultarCarrera());
         $this->getPlanEstudioDAO()->setCodigoEstudiante($EstudianteDTO->getCodigo());
         return $this->getPlanEstudioDAO()->buscarPlanEstudio($periodo);
     }
 
-    public function getCarrera() {
+    public function consultarCarrera() {
         $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));
         return $this->getCarreraDAO()->consultarCarrera($carreraEstudiante->getCodigocarrera());
     }

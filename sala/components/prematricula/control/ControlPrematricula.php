@@ -45,7 +45,7 @@ class ControlPrematricula {
     }
     
     public function reservarCupo(){
-        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
+        $estudianteDTO = $this->Controller->getEstudiante();
         
         $result= $this->Controller->reservarCupo($estudianteDTO, $this->variables->grupoId);
         
@@ -53,7 +53,7 @@ class ControlPrematricula {
     }
     
     public function removerCupo(){
-        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
+        $estudianteDTO = $this->Controller->getEstudiante();
         
         $result = $this->Controller->borrarReserva($estudianteDTO, $this->variables->grupoId);
         echo json_encode(array("s"=>$result));
@@ -83,15 +83,16 @@ class ControlPrematricula {
     
     public function finalizarPrematricula(){
         //d($this->variables);
-        $estudianteDTO = $this->Controller->getEstudiante()->getEstudianteDTO();
+        $estudianteDTO = $this->Controller->getEstudiante();
         $periodoDTO = $this->Controller->getPeriodoDTO();
         
-        $controllerFinalizar = new ControllerFinalizar($estudianteDTO, $periodoDTO);
+        $this->ControllerFinalizar = new ControllerFinalizar($estudianteDTO, $periodoDTO);
         $arrayGrupoMateria = json_decode($this->variables->grupoId); 
         foreach ($arrayGrupoMateria as $grupoMateria){
-            $controllerFinalizar->crearDetallePrematricula($grupoMateria[0], $grupoMateria[1]);
+             $this->ControllerFinalizar->crearDetallePrematricula($grupoMateria[0], $grupoMateria[1]);
         }
-        $controllerFinalizar->agregarPrematricula();
-        echo json_encode(array("s"=>true, "msj"=>"Su orden de pago ha sido generada"));
+        
+        $ordenPago = $this->ControllerFinalizar->agregarPrematricula();
+        echo json_encode(array("s"=>true, "msj"=>"Su orden de pago ha sido generada con el numero ".$ordenPago));
     }
 }
