@@ -124,10 +124,8 @@ class PlanEstudioDAO implements IPlanEstudioDAO {
                 . " AND codigoestudiante = ".$db->qstr($this->getCodigoEstudiante())
                 . " AND codigomateria = ".$db->qstr($idMateria);
         $eNotaHistorico = NotaHistorico::getList($where);
-        if(!empty($eNotaHistorico)){ 
-            if( (int)$eNotaHistorico[0]->getNotadefinitiva() > 3){
-                $aprovado = true;
-            }
+        if(!empty($eNotaHistorico) &&  (int)$eNotaHistorico[0]->getNotadefinitiva() > 3){
+            $aprovado = true;
         }
         return $aprovado;
     }

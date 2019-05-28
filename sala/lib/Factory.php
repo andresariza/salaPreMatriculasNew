@@ -339,6 +339,10 @@ abstract class Factory{
         }
     }
     
+    public static function getCarreraEstudiante(){
+        return unserialize(Factory::getSessionVar("carreraEstudiante"));
+    }
+    
     /**
      * Setea un valor a una variable de session
      * @param String $variable nombre de la variable que se quirere setear

@@ -32,9 +32,7 @@ class PazYSalvoImpl implements IPazYSalvo {
         $parametros['codigoPeriodo'] = $PeriodoDTO->getCodigoPeriodo(); 
         
         $client = new \SoapClient($servicio, $parametros);
-        $pazYSalvo = $client->getPazYSalvo($parametros);
-        
-        return $pazYSalvo;
+        return $client->getPazYSalvo($parametros); 
     }
 
 }

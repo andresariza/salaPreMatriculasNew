@@ -40,8 +40,7 @@ class PrematriculaImpl implements IPrematricula{
 
     public function agregrarPrematricula() {
         $cantidadCreditos = $this->calcularNumeroCreditos(); 
-        
-        $this->prematriculaEnt = $this->crearCabeceraPrematricula();
+        $this->crearCabeceraPrematricula();
         $ordenPago = $this->crearOrdenPago($cantidadCreditos); 
         $this->crearDetallePrematricula($ordenPago);
         return $ordenPago;
@@ -64,20 +63,18 @@ class PrematriculaImpl implements IPrematricula{
     }
     
     private function crearCabeceraPrematricula(){
-        $prematriculaEnt = new Prematricula();
-        $prematriculaEnt->setFechaprematricula(date("Y-m-d"));
-        $prematriculaEnt->setCodigoestudiante($this->estudianteDTO->getCodigo());
-        $prematriculaEnt->setCodigoperiodo($this->periodoDTO->getCodigoPeriodo());
-        $prematriculaEnt->setCodigoestadoprematricula(10);
-        $prematriculaEnt->setSemestreprematricula($this->estudianteDTO->getSemestreMatricula());
-        $prematriculaEnt->setObservacionprematricula("");
+        $this->prematriculaEnt = new Prematricula();
+        $this->prematriculaEnt->setFechaprematricula(date("Y-m-d"));
+        $this->prematriculaEnt->setCodigoestudiante($this->estudianteDTO->getCodigo());
+        $this->prematriculaEnt->setCodigoperiodo($this->periodoDTO->getCodigoPeriodo());
+        $this->prematriculaEnt->setCodigoestadoprematricula(10);
+        $this->prematriculaEnt->setSemestreprematricula($this->estudianteDTO->getSemestreMatricula());
+        $this->prematriculaEnt->setObservacionprematricula("");
         
-        $PrematriculaDAO = new PrematriculaDAO($prematriculaEnt);
+        $PrematriculaDAO = new PrematriculaDAO($this->prematriculaEnt);
         $PrematriculaDAO->save();
         
         unset($PrematriculaDAO);
-        
-        return $prematriculaEnt;
     }
     
     private function crearOrdenPago($cantidadCreditos){
@@ -89,14 +86,12 @@ class PrematriculaImpl implements IPrematricula{
         $parametros['numeroCreditos'] = $cantidadCreditos;
         
         $client = new \SoapClient($servicio, $parametros);
-        $numeroOrden = $client->crearOrdenPago($parametros);
-        
-        return $numeroOrden;
+        return $client->crearOrdenPago($parametros);
     }
     
     private function crearDetallePrematricula($numeroOrden){
         $db = Factory::createDbo();
-        //crear el foreach
+        
         foreach( $this->detalleMateriaGrupo as $detalle){
             $detallePrematriculaEnt = new DetallePrematricula();
             $detallePrematriculaEnt->setIdPrematricula($this->prematriculaEnt->getIdprematricula());

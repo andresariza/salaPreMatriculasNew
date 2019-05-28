@@ -13,7 +13,6 @@ use \Sala\entidad\Estudiante;
 use \Sala\entidad\EstudianteGeneral;
 use \Sala\entidad\Prematricula;
 use \Sala\lib\GestorDePrematriculas\interfaces\dao\IEstudianteDAO;
-use \Sala\lib\GestorDePrematriculas\impl\estudiante\EstudianteImpl;
 
 /**
  * Description of EstudianteDAO

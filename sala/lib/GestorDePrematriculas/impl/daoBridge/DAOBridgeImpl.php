@@ -19,11 +19,6 @@ use \Sala\lib\GestorDePrematriculas\abstracts\daoBridge\DAOBridge;
  */
 class DAOBridgeImpl extends DAOBridge {
     
-    public function __construct(){
-        parent::__construct();
-    }
-
-    
     public function buscarPlanEstudio(PeriodoDTO $periodo, EstudianteDTO $EstudianteDTO) {
         $this->getPlanEstudioDAO()->setCarreraDto($this->consultarCarrera());
         $this->getPlanEstudioDAO()->setCodigoEstudiante($EstudianteDTO->getCodigo());
@@ -31,7 +26,7 @@ class DAOBridgeImpl extends DAOBridge {
     }
 
     public function consultarCarrera() {
-        $carreraEstudiante = unserialize(Factory::getSessionVar("carreraEstudiante"));
+        $carreraEstudiante = Factory::getCarreraEstudiante(); 
         return $this->getCarreraDAO()->consultarCarrera($carreraEstudiante->getCodigocarrera());
     }
 

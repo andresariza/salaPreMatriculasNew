@@ -28,7 +28,6 @@ class FechaAcademicaImpl implements IFechaAcademica{
     public function __construct(CarreraDTO $carrera, PeriodoDTO $periodo) {
         $this->carrera = $carrera;
         $this->periodo = $periodo;
-        //d($this->periodo);
     }
 
     public function validarFechaAcademica() {
@@ -39,6 +38,8 @@ class FechaAcademicaImpl implements IFechaAcademica{
                 . " AND NOW() BETWEEN fechainicialprematricula AND fechafinalprematricula";
         $eFechaAcademica = FechaAcademica::getList($where);
         if(!empty($eFechaAcademica)){
+            $this->fechaInicioPrematricula = $eFechaAcademica[0]->getFechainicialprematricula();
+            $this->fechaFinPrematricula = $eFechaAcademica[0]->getFechafinalprematricula();
             $return = true;
         }
         return $return;

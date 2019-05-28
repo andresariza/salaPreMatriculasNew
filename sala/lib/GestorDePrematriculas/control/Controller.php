@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,19 +18,14 @@ use \Sala\lib\GestorDePrematriculas\dto\PeriodoDTO;
 use \Sala\lib\GestorDePrematriculas\dto\CarreraDTO;
 use \Sala\lib\GestorDePrematriculas\dto\EstudianteDTO;
 use \Sala\lib\GestorDePrematriculas\dto\PlanEstudioDTO;
-use \Sala\lib\GestorDePrematriculas\impl\estudiante\EstudianteImpl;
 use \Sala\lib\GestorDePrematriculas\impl\daoBridge\DAOBridgeImpl;
-use \Sala\lib\GestorDePrematriculas\impl\validaAcceso\FechaAcademicaImpl;
-use \Sala\lib\GestorDePrematriculas\impl\validaAcceso\PazYSalvoImpl;
-use \Sala\lib\GestorDePrematriculas\impl\auxiliaresPlanEstudio\CreditosDisponiblesImpl;
+use \Sala\lib\GestorDePrematriculas\service\Servicio;
 
 class Controller {
     
-    private $CarreraDTO;
+    private $Servicio;
     private $periodoDTO;
     private $Estudiante;
-    private $fechaAcademica;
-    private $pazYSalvo;
     private $DAOBridgeImpl;
     private $mensajeError = array();
     
@@ -41,32 +35,11 @@ class Controller {
         $this->setCarreraDTO($this->DAOBridgeImpl->consultarCarrera()); 
         $this->setPeriodoDTO();
         
-        $this->setFechaAcademica();
-        $this->setPazYSalvo();
+        $this->Servicio = new Servicio($this->Estudiante, $this->carreraDTO, $this->periodoDTO); 
     }
     
     public function validarDatosAccesoPrematricula(){
-        $permiso = true;
-        
-        if($this->fechaAcademica->validarFechaAcademica()===false){
-            $permiso = false;
-            $this->mensajeError[] = "No se encuentra dentro de las fechas permitidas para prematricula";
-        }
-        $estudiante = new EstudianteImpl($this->Estudiante);
-        if($estudiante->validarEstado()===false){
-            $permiso = false;
-            $this->mensajeError[] = "No se encuentra como estudiante activo";
-        }
-        if($this->Estudiante->getEstadoPrematricula()===true){
-            $permiso = false;
-            $this->mensajeError[] = "El estudiante ya realizo la prematricula";
-        }
-        if($this->pazYSalvo->validarPazYSalvoEstudiante($this->Estudiante, $this->periodoDTO)===false){
-            $permiso = false;
-            $this->mensajeError[] = "No se encuentra a paz y salvo";
-        }
-        
-        return $permiso;
+        return $this->Servicio->validarDatosAccesoPrematricula();
     }
     
     public function buscarPlanEstudio(EstudianteDTO $EstudianteDTO){
@@ -91,13 +64,6 @@ class Controller {
         $this->Estudiante = $Estudiante;
     }
     
-    private function setFechaAcademica(){
-        $this->fechaAcademica = new FechaAcademicaImpl($this->carreraDTO, $this->periodoDTO);
-    }
-    
-    private function setPazYSalvo(){
-        $this->pazYSalvo = new PazYSalvoImpl($this->Estudiante);
-    }
     public function getCarreraDTO() {
         return $this->carreraDTO;
     }
@@ -108,14 +74,6 @@ class Controller {
 
     public function getEstudiante() {
         return $this->Estudiante;
-    }
-
-    public function getFechaAcademica() {
-        return $this->fechaAcademica;
-    }
-
-    public function getPazYSalvo() {
-        return $this->pazYSalvo;
     }
     
     public function getMensajeError() {
@@ -139,7 +97,6 @@ class Controller {
     }
     
     public function consultarCreditos(PlanEstudioDTO $planEstudioDTO, EstudianteDTO $estudianteDTO){
-        $CreditosDisponiblesImpl = new CreditosDisponiblesImpl();
-        return $CreditosDisponiblesImpl->consultarCreditos($planEstudioDTO, $estudianteDTO);
+        return $this->Servicio->consultarCreditos($planEstudioDTO, $estudianteDTO);
     }
 }

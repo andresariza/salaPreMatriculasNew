@@ -22,7 +22,6 @@ class CreditosDisponiblesImpl implements ICreditosDisponibles{
 
     public function consultarCreditos(PlanEstudioDTO $planEstudioDTO, EstudianteDTO $estudianteDTO) {
         $creditos = 0;
-        //d($estudianteDTO->getSemestreMatricula());
         foreach($planEstudioDTO->getListadoMaterias() as $materia){
             if($materia->getSemestre() == $estudianteDTO->getSemestreMatricula()){
                 $creditos += $materia->getNumeroCreditos();
